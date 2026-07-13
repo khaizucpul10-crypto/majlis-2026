@@ -1,92 +1,92 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+	<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
-body{
-    margin:0;
-    font-family:Segoe UI;
-    background:#f4f6fb;
-}
+	<style>
+		body{
+			margin:0;
+			font-family:Segoe UI;
+			background:#f4f6fb;
+		}
 
-/* HEADER */
-.header{
-    background:#1e3a8a;
-    color:white;
-    padding:15px;
-    text-align:center;
-    font-weight:bold;
-}
+		/* HEADER */
+		.header{
+			background:#1e3a8a;
+			color:white;
+			padding:15px;
+			text-align:center;
+			font-weight:bold;
+		}
 
-/* CARD */
-.card{
-    background:white;
-    margin:20px;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-    text-align:center;
-}
+		/* CARD */
+		.card{
+			background:white;
+			margin:20px;
+			padding:20px;
+			border-radius:15px;
+			box-shadow:0 5px 15px rgba(0,0,0,0.1);
+			text-align:center;
+		}
 
-/* PROFILE */
-.profile{
-    width:80px;
-    height:80px;
-    border-radius:50%;
-    background:#1e3a8a;
-    margin:auto;
-}
+		/* PROFILE */
+		.profile{
+			width:80px;
+			height:80px;
+			border-radius:50%;
+			background:#1e3a8a;
+			margin:auto;
+		}
 
-/* NAME */
-.name{
-    font-size:20px;
-    font-weight:bold;
-    margin-top:10px;
-}
+		/* NAME */
+		.name{
+			font-size:20px;
+			font-weight:bold;
+			margin-top:10px;
+		}
 
-.ic{
-    background:#eef2ff;
-    display:inline-block;
-    padding:5px 12px;
-    border-radius:20px;
-    margin-top:5px;
-}
+		.ic{
+			background:#eef2ff;
+			display:inline-block;
+			padding:5px 12px;
+			border-radius:20px;
+			margin-top:5px;
+		}
 
-/* INFO */
-.row{
-    display:flex;
-    justify-content:space-between;
-    margin-top:15px;
-    font-size:14px;
-}
+		/* INFO */
+		.row{
+			display:flex;
+			justify-content:space-between;
+			margin-top:15px;
+			font-size:14px;
+		}
 
-.big{
-    font-size:28px;
-    font-weight:bold;
-    color:#16a34a;
-}
+		.big{
+			font-size:28px;
+			font-weight:bold;
+			color:#16a34a;
+		}
 
-/* BUTTON */
-.btn{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:10px;
-    margin-top:15px;
-    font-size:16px;
-}
+		/* BUTTON */
+		.btn{
+			width:100%;
+			padding:15px;
+			border:none;
+			border-radius:10px;
+			margin-top:15px;
+			font-size:16px;
+		}
 
-.green{
-    background:#16a34a;
-    color:white;
-}
+		.green{
+			background:#16a34a;
+			color:white;
+		}
 
-.gray{
-    background:#e5e7eb;
-}
-</style>
+		.gray{
+			background:#e5e7eb;
+		}
+	</style>
 
 </head>
 
@@ -107,7 +107,7 @@ body{
 </div>
 
 <div class="row">
-    <div>Keterangan</div>
+    <div>Kenaikan Pangkat</div>
     <div id="ket"></div>
 </div>
 
@@ -123,7 +123,7 @@ body{
     <div class="big" id="kerusi"></div>
 </div>
 
-<button class="btn green" onclick="sahHadir()">✔ SAH HADIR</button>
+<!--button class="btn green" onclick="sahHadir()">✔ SAH HADIR</button-->
 
 <!--button class="btn gray" onclick="kembali()">↻ KEMBALI IMBAS</button-->
 
@@ -133,8 +133,9 @@ body{
 
 // SAMPLE DATABASE (NANTI BOLEH CONNECT GOOGLE SHEET)
 let data=[
-["900101011234","AHMAD BIN ABDUL RAHMAN","Jabatan Pendidikan Negeri","Pegawai","12","B5"],
-["900202021111","ALI AHMADI","Kementerian","VIP","05","A1"]
+["701023125351","ABD MAJIS BIN SAPRIN","PPD TAWAU","DG13 KE DG14","-","001"],
+["810117125283","MOHD NASIR BIN RAYUNG","PPD TAWAU","DG13 KE DG14","-","002"],
+["000000000000","BONDIN BINTI SUARNO","SK MEROTAI BESAR","N2 KE N3","-","341"]
 ];
 
 // AMBIL IC DARI SCAN
