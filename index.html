@@ -1,1 +1,162 @@
+<!DOCTYPE html>
 
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Majlis 2026</title>
+
+		<style>
+			body{
+				margin:0;
+				font-family:Segoe UI, Arial;
+				background:linear-gradient(180deg,#0b1f4d,#162c6b);
+				color:#fff;
+			}
+
+			/* CONTAINER */
+			.container{
+				text-align:center;
+				padding:30px 20px;
+			}
+
+			/* LOGO */
+			.logo{
+				width:80px;
+				margin-top:10px;
+			}
+
+			/* TITLE */
+			.welcome{
+				font-size:28px;
+				color:#facc15;
+				font-family:cursive;
+				margin-top:10px;
+			}
+
+			.subtitle{
+				font-size:18px;
+				font-weight:bold;
+				margin-top:5px;
+			}
+
+			/* QR BOX */
+			.qr-box{
+				margin:40px auto;
+				width:150px;
+				height:150px;
+				border:3px solid #facc15;
+				border-radius:15px;
+				display:flex;
+				align-items:center;
+				justify-content:center;
+			}
+
+			/* TEXT */
+			.info{
+				margin-top:20px;
+				font-size:14px;
+				opacity:0.9;
+			}
+
+			/* BUTTON */
+			.btn{
+				margin-top:25px;
+				padding:15px;
+				border:none;
+				border-radius:30px;
+				width:80%;
+				background:linear-gradient(90deg,#facc15,#eab308);
+				font-weight:bold;
+				font-size:16px;
+				cursor:pointer;
+			}
+
+			/* FOOTER */
+			.footer{
+				margin-top:30px;
+				font-size:13px;
+				opacity:0.7;
+			}
+		</style>
+	</head>
+
+	<body>
+
+	<div class="container">
+
+	<img src="https://acesse.one/d2wgeip" class="logo">
+
+	<div class="welcome">Selamat Datang</div><br>
+
+	<div class="subtitle">
+	Majlis Kenaikan Pangkat <br>
+	PPD TAWAU Tahun 2026
+	</div>
+
+	<div style="margin-top:30px;">
+		
+		<input type="text" id="icInput" placeholder="Masukkan No IC"
+		style="width:80%; padding:12px; border-radius:10px; border:none; text-align:center; font-size:16px;">
+		
+		<br><br>
+
+		<button class="btn" onclick="semakIC()">
+			🔍 SEMAK
+		</button>
+
+	</div>
+	<script>
+	function semakIC(){
+
+		let ic = document.getElementById("icInput").value.trim();
+
+		if(ic === ""){
+			alert("Sila masukkan No IC");
+			return;
+		}
+
+		// Simpan IC dalam localStorage
+		localStorage.setItem("ic", ic);
+
+		// Pergi ke page maklumat
+		window.location.href = "maklumat.html";
+	}
+	</script>
+	<div id="result"></div>
+	</div>
+
+	<script>
+	let data=[
+	["100910101010","Ali Ahmad","Peserta","Dewan A","M01","K01"],
+	["900202022222","Siti Aminah","Urusetia","Dewan A","M02","K02"],
+	["900303033333","Abu Bakar","VIP","Dewan A","M03","K03"]
+	];
+
+	function cari(){
+	let ic=document.getElementById('ic').value;
+	let r=data.find(x=>x[0]==ic);
+	if(r){
+	document.getElementById('result').innerHTML=
+	`<br><b>Maklumat:</b><br>
+	No KP: ${r[0]}<br>
+	Nama: ${r[1]}<br>
+	Keterangan: ${r[2]}<br>
+	Tempat: ${r[3]}<br>
+	Meja: ${r[4]}<br>
+	Kerusi: ${r[5]}`;
+	}else{
+	document.getElementById('result').innerHTML="❌ Tidak dijumpai";
+	}
+	}
+	</script>
+
+	</div>
+
+	<script>
+	function mulaScan(){
+		window.location.href="scan.html";
+	}
+	</script>
+
+	</body>
+</html>

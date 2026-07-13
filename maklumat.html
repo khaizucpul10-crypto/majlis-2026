@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+    margin:0;
+    font-family:Segoe UI;
+    background:#f4f6fb;
+}
+
+/* HEADER */
+.header{
+    background:#1e3a8a;
+    color:white;
+    padding:15px;
+    text-align:center;
+    font-weight:bold;
+}
+
+/* CARD */
+.card{
+    background:white;
+    margin:20px;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    text-align:center;
+}
+
+/* PROFILE */
+.profile{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:#1e3a8a;
+    margin:auto;
+}
+
+/* NAME */
+.name{
+    font-size:20px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.ic{
+    background:#eef2ff;
+    display:inline-block;
+    padding:5px 12px;
+    border-radius:20px;
+    margin-top:5px;
+}
+
+/* INFO */
+.row{
+    display:flex;
+    justify-content:space-between;
+    margin-top:15px;
+    font-size:14px;
+}
+
+.big{
+    font-size:28px;
+    font-weight:bold;
+    color:#16a34a;
+}
+
+/* BUTTON */
+.btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    margin-top:15px;
+    font-size:16px;
+}
+
+.green{
+    background:#16a34a;
+    color:white;
+}
+
+.gray{
+    background:#e5e7eb;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">MAKLUMAT TETAMU</div>
+
+<div class="card">
+
+<div class="profile"></div>
+
+<div class="name" id="nama"></div>
+<div class="ic" id="noic"></div>
+
+<div class="row">
+    <div>Tempat Bertugas</div>
+    <div id="tempat"></div>
+</div>
+
+<div class="row">
+    <div>Keterangan</div>
+    <div id="ket"></div>
+</div>
+
+<hr>
+
+<div class="row">
+    <div>No. Meja</div>
+    <div class="big" id="meja"></div>
+</div>
+
+<div class="row">
+    <div>No. Kerusi</div>
+    <div class="big" id="kerusi"></div>
+</div>
+
+<button class="btn green" onclick="sahHadir()">✔ SAH HADIR</button>
+
+<!--button class="btn gray" onclick="kembali()">↻ KEMBALI IMBAS</button-->
+
+</div>
+
+<script>
+
+// SAMPLE DATABASE (NANTI BOLEH CONNECT GOOGLE SHEET)
+let data=[
+["900101011234","AHMAD BIN ABDUL RAHMAN","Jabatan Pendidikan Negeri","Pegawai","12","B5"],
+["900202021111","ALI AHMADI","Kementerian","VIP","05","A1"]
+];
+
+// AMBIL IC DARI SCAN
+let ic=localStorage.getItem("ic");
+
+// CARI DATA
+let user=data.find(x=>x[0]==ic);
+
+if(user){
+document.getElementById("nama").innerText=user[1];
+document.getElementById("noic").innerText="No. IC: "+user[0];
+document.getElementById("tempat").innerText=user[2];
+document.getElementById("ket").innerText=user[3];
+document.getElementById("meja").innerText=user[4];
+document.getElementById("kerusi").innerText=user[5];
+}else{
+document.querySelector(".card").innerHTML="❌ Data tidak dijumpai";
+}
+
+// BUTTON
+function sahHadir(){
+    //alert("Kehadiran berjaya direkod!");
+    //window.location.href="index.html";
+
+    let ic = localStorage.getItem("ic");
+
+    // ambil rekod kehadiran lama
+    let hadirList = JSON.parse(localStorage.getItem("kehadiran")) || [];
+
+    // check duplicate
+    let dahHadir = hadirList.find(x => x.ic === ic);
+
+    if(dahHadir){
+        alert("❗ Tetamu ini sudah daftar pada " + dahHadir.masa);
+        return;
+    }
+
+    // simpan kehadiran
+    hadirList.push({
+        ic: ic,
+        masa: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("kehadiran", JSON.stringify(hadirList));
+
+    alert("✅ Kehadiran berjaya direkod!");
+    window.location.href="index.html";
+}
+
+
+function kembali(){
+    window.location.href="scan.html";
+}
+
+</script>
+
+</body>
+</html>
