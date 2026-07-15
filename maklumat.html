@@ -100,16 +100,12 @@
 <div class="profile"></div>
 
 <div class="name" id="nama"></div>
+<div class="perjawatan" id="jawatan"></div>		<!--new add-->
 <div class="ic" id="noic"></div><br><br>
 
 <div class="row">
     <div>Tempat Bertugas</div>
     <div id="tempat"></div>
-</div>
-
-<div class="row">
-    <div>Perjawatan</div>
-    <div id="jawatan"></div>
 </div>
 
 <div class="row">
@@ -416,8 +412,8 @@ let user=data.find(x=>x[0]==ic);
 if(user){
 document.getElementById("nama").innerText=user[1];
 document.getElementById("noic").innerText="No. IC: "+user[0];
-document.getElementById("tempat").innerText=user[2];
 document.getElementById("jawatan").innerText=user[6];	//new add
+document.getElementById("tempat").innerText=user[2];
 document.getElementById("ket").innerText=user[3];
 document.getElementById("meja").innerText=user[4];
 document.getElementById("kerusi").innerText=user[5];
