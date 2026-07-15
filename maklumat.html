@@ -100,6 +100,7 @@
 
 <div class="name" id="nama"></div>
 <div class="ic" id="noic"></div>
+<div class="perjawatan" id="jawatan"></div><br>		<!--new add-->
 
 <div class="row">
     <div>Tempat Bertugas</div>
@@ -370,7 +371,7 @@ let data=[
 ["800215125878","ZULEHA BINTI WAHAB","SK BOMBALAI","DG6 KE DG7","-","230"],
 ["700928125087","SULAIMAN BIN ABDUL","SK KALABAKAN","DG6 KE DG7","-","231"],
 ["790701095030","BADLIZA BINTI HALIM","SK KEM KABOTA","DG6 KE DG7","-","232"],
-["710627125082","LINDA BINTI ARELLANO","SK LUASONG","DG6 KE DG7","-","233"],
+["710627125082","LINDA BINTI ARELLANO","SK LUASONG","DG6 KE DG7","-","233","Pegawai Perkhidmatan Pendidikan"],
 
 ["710302125244","HULMAH BINTI KUMANIL","PPD TAWAU","N2 KE N3","-","234"],
 ["721021125524","PATIMAH BINTI HUSSIN","SMK JAMBATAN PUTIH","N2 KE N3","-","235"],
@@ -410,6 +411,7 @@ let user=data.find(x=>x[0]==ic);
 if(user){
 document.getElementById("nama").innerText=user[1];
 document.getElementById("noic").innerText="No. IC: "+user[0];
+document.getElementById("jawatan").innerText=user[6];	//new add
 document.getElementById("tempat").innerText=user[2];
 document.getElementById("ket").innerText=user[3];
 document.getElementById("meja").innerText=user[4];
