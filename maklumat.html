@@ -3,7 +3,7 @@
 <html>
 	<head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
+	<script src="config.js"></script>
 	<style>
 		body{
 			margin:0;
@@ -125,7 +125,8 @@
     <div class="big" id="kerusi"></div>
 </div>
 
-<button class="btn green" onclick="sahHadir()">✔ SAHKAN KEHADIRAN</button><br><br>
+<button class="btn green" onclick="sahHadir()">✔ SAHKAN KEHADIRAN</button>
+<br><br>
 
 <!--button class="btn gray" onclick="kembali()">↻ KEMBALI IMBAS</button-->
 
@@ -153,7 +154,7 @@ if(user){
 }
 
 // BUTTON
-function sahHadir(){
+async function sahHadir(){
 
     let user = JSON.parse(localStorage.getItem("peserta"));
 
@@ -162,15 +163,42 @@ function sahHadir(){
         return;
     }
 
-    alert(
-        "✅ Kehadiran berjaya direkod.\n\n" +
-        "Nama : " + user.nama +
-        "\nNo KP : " + user.ic +
-        "\nMeja : " + user.meja +
-        "\nKerusi : " + user.kerusi
-    );
+    try{
 
-    window.location.href = "index.html";
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                ic: user.ic
+            })
+        });
+
+        const result = await response.json();
+
+        if(result.status){
+
+            alert("✅ " + result.message);
+
+            // Buang data sementara
+            localStorage.removeItem("peserta");
+
+            window.location.href="index.html";
+
+        }else{
+
+            alert("❌ " + result.message);
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+        alert("Ralat semasa merekod kehadiran.");
+
+    }
 
 }
 
