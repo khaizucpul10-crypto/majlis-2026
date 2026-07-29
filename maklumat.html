@@ -87,6 +87,11 @@
 		.gray{
 			background:#e5e7eb;
 		}
+		
+		.logo{
+			width:80px;
+			height:auto;
+		}
 	</style>
 
 </head>
@@ -114,6 +119,26 @@
 </div>
 
 <hr>
+<div id="statusBox" style="display:none;
+	background:#dcfce7;
+	color:#166534;
+	padding:12px;
+	border-radius:10px;
+	margin:15px 0;
+	font-weight:bold;">
+		✅ KEHADIRAN BERJAYA DIREKOD
+		<div id="statusBox"
+			style="
+			display:none;
+			background:#dcfce7;
+			border-left:6px solid #16a34a;
+			padding:15px;
+			border-radius:8px;
+			font-weight:bold;
+			color:#166534;">
+		</div>
+
+</div>
 
 <div class="row">
     <div>No. Meja</div>
@@ -125,7 +150,18 @@
     <div class="big" id="kerusi"></div>
 </div>
 
-<button class="btn green" onclick="sahHadir()">✔ SAHKAN KEHADIRAN</button>
+<!--button class="btn green" onclick="sahHadir()">✔ SAHKAN KEHADIRAN</button-->
+<button id="btnHadir" class="btn green" onclick="sahHadir()">
+    ✔ SAHKAN KEHADIRAN
+</button>
+
+<button
+    id="btnKembali"
+    class="btn gray"
+    onclick="window.location.href='index.html'"
+    style="display:none;">
+    ← KEMBALI
+</button>
 <br><br>
 
 <!--button class="btn gray" onclick="kembali()">↻ KEMBALI IMBAS</button-->
@@ -133,8 +169,7 @@
 </div>
 
 <script>
-
-let user = JSON.parse(localStorage.getItem("peserta"));
+const user = JSON.parse(localStorage.getItem("peserta"));
 
 if(user){
 
@@ -145,7 +180,7 @@ if(user){
     document.getElementById("ket").innerText = user.gred;
     document.getElementById("meja").innerText = user.meja;
     document.getElementById("kerusi").innerText = user.kerusi;
-
+	updateButtonStatus(user);
 }else{
 
     document.querySelector(".card").innerHTML =
@@ -156,45 +191,85 @@ if(user){
 // BUTTON
 async function sahHadir(){
 
-    let user = JSON.parse(localStorage.getItem("peserta"));
+    const peserta = JSON.parse(localStorage.getItem("peserta"));
+
+    if(!peserta){
+        alert("Maklumat peserta tidak dijumpai.");
+        window.location.href = "index.html";
+        return;
+    }
+
+    const btn = document.getElementById("btnHadir");
+
+    btn.disabled = true;
+    btn.innerHTML = "Memproses...";
 
     try{
 
-        let response = await fetch(
+        const response = await fetch(
             API_URL +
             "?action=hadir&ic=" +
-            encodeURIComponent(user.ic)
+            encodeURIComponent(peserta.ic)
         );
 
-        let result = await response.json();
+        const result = await response.json();
 
         if(result.status){
 
-            alert(result.message);
+            peserta.hadir = "HADIR";
 
-            localStorage.removeItem("peserta");
+            localStorage.setItem(
+                "peserta",
+                JSON.stringify(peserta)
+            );
 
-            window.location.href="index.html";
+            const sekarang = new Date().toLocaleString("ms-MY");
+
+            document.getElementById("statusBox").innerHTML =
+                "✅ Kehadiran berjaya direkod pada " + sekarang;
+
+            updateButtonStatus(peserta);
 
         }else{
 
             alert(result.message);
 
+            if(result.message.includes("telah hadir")){
+
+                peserta.hadir = "HADIR";
+                updateButtonStatus(peserta);
+
+            }else{
+
+                btn.disabled = false;
+                btn.innerHTML = "✔ SAHKAN KEHADIRAN";
+
+            }
+
         }
 
     }catch(err){
 
-        console.log(err);
+        btn.disabled = false;
+        btn.innerHTML = "✔ SAHKAN KEHADIRAN";
 
+        console.log(err);
         alert("Tidak dapat berhubung dengan server.");
 
     }
 
 }
 
+function updateButtonStatus(user){
 
-function kembali(){
-    window.location.href="scan.html";
+    if(user && user.hadir === "HADIR"){
+
+        document.getElementById("btnHadir").style.display = "none";
+        document.getElementById("btnKembali").style.display = "block";
+        document.getElementById("statusBox").style.display = "block";
+
+    }
+
 }
 
 </script>

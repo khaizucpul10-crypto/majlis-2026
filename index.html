@@ -128,7 +128,8 @@
 
         if(data.status){
 
-            localStorage.setItem("peserta", JSON.stringify(data));
+           // localStorage.setItem("peserta", JSON.stringify(data));	29/7/2026
+		   localStorage.setItem("ic", data.ic);
 
             window.location.href="maklumat.html";
 
