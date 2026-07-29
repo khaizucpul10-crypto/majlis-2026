@@ -133,30 +133,23 @@
 
 <script>
 
-// SAMPLE DATABASE (NANTI BOLEH CONNECT GOOGLE SHEET)
-let data=[
-["900000000000","NAMA PESERTA","PPD","C KE C","-","256","Pembantu Makmal"],
-
-["900000000001","NAMA PESERTA","SEKOLAH","FT KE FT","-","257","Juruteknik Komputer"]
-
-];
-
-// AMBIL IC DARI SCAN
-let ic=localStorage.getItem("ic");
-
-// CARI DATA
-let user=data.find(x=>x[0]==ic);
+let user = JSON.parse(localStorage.getItem("peserta"));
 
 if(user){
-document.getElementById("nama").innerText=user[1];
-document.getElementById("noic").innerText="No. IC: "+user[0];
-document.getElementById("jawatan").innerText=user[6];	//new add
-document.getElementById("tempat").innerText=user[2];
-document.getElementById("ket").innerText=user[3];
-document.getElementById("meja").innerText=user[4];
-document.getElementById("kerusi").innerText=user[5];
+
+    document.getElementById("nama").innerText = user.nama;
+    document.getElementById("noic").innerText = "No. IC: " + user.ic;
+    document.getElementById("jawatan").innerText = user.jawatan;
+    document.getElementById("tempat").innerText = user.tempat;
+    document.getElementById("ket").innerText = user.gred;
+    document.getElementById("meja").innerText = user.meja;
+    document.getElementById("kerusi").innerText = user.kerusi;
+
 }else{
-document.querySelector(".card").innerHTML="❌ Data tidak dijumpai";
+
+    document.querySelector(".card").innerHTML =
+        "<h2>❌ Data tidak dijumpai</h2>";
+
 }
 
 // BUTTON
