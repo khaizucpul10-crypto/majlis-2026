@@ -121,7 +121,8 @@
 		console.log(API_URL);
 		console.log(ic);
 		
-        let response = await fetch(API_URL + "?ic=" + encodeURIComponent(ic));
+        let response = await fetch(API_URL + "?action=semak&ic=" + encodeURIComponent(ic));
+		
 
         let data = await response.json();
 
