@@ -125,7 +125,7 @@
     <div class="big" id="kerusi"></div>
 </div>
 
-<button class="btn green" onclick="()">✔ SAH HADIR</button><br><br>
+<button class="btn green" onclick="sahHadir()">✔ SAHKAN KEHADIRAN</button><br><br>
 
 <!--button class="btn gray" onclick="kembali()">↻ KEMBALI IMBAS</button-->
 
@@ -154,32 +154,24 @@ if(user){
 
 // BUTTON
 function sahHadir(){
-    //alert("Kehadiran berjaya direkod!");
-    //window.location.href="index.html";
 
-    let ic = localStorage.getItem("ic");
+    let user = JSON.parse(localStorage.getItem("peserta"));
 
-    // ambil rekod kehadiran lama
-    let hadirList = JSON.parse(localStorage.getItem("kehadiran")) || [];
-
-    // check duplicate
-    let dahHadir = hadirList.find(x => x.ic === ic);
-
-    if(dahHadir){
-        alert("❗ Tetamu ini sudah daftar pada " + dahHadir.masa);
+    if(!user){
+        alert("Data peserta tidak dijumpai.");
         return;
     }
 
-    // simpan kehadiran
-    hadirList.push({
-        ic: ic,
-        masa: new Date().toLocaleString()
-    });
+    alert(
+        "✅ Kehadiran berjaya direkod.\n\n" +
+        "Nama : " + user.nama +
+        "\nNo KP : " + user.ic +
+        "\nMeja : " + user.meja +
+        "\nKerusi : " + user.kerusi
+    );
 
-    localStorage.setItem("kehadiran", JSON.stringify(hadirList));
+    window.location.href = "index.html";
 
-    alert("✅ Kehadiran berjaya direkod!");
-    window.location.href="index.html";
 }
 
 
