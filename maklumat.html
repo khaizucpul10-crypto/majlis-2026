@@ -92,6 +92,26 @@
 			width:80px;
 			height:auto;
 		}
+		
+		.welcome{
+			font-size:20px;
+			font-weight:bold;
+			text-align:center;
+			color:#1e3a8a;
+		}
+		
+		#statusBox{
+			display:none;
+			background:#dcfce7;
+			border-left:6px solid #16a34a;
+			color:#166534;
+			text-align:center;
+			padding:15px;
+			border-radius:10px;
+			margin:15px 0;
+			font-weight:bold;
+		}
+		
 	</style>
 
 </head>
@@ -104,7 +124,7 @@
 	<img src="images/jatanegarayellowsmall.png" class="logo" alt=""><br><br>
 		<!--div class="profile"></div-->
 
-<div class="welcome" style="color: white;">
+<div class="welcome" style="color:#1e3a8a;">
     Majlis Anugerah Perkhidmatan Cemerlang <br>
     PPD TAWAU Tahun 2026
 </div>
@@ -124,26 +144,7 @@
 </div>
 
 <hr>
-<div id="statusBox" style="display:none;
-	background:#dcfce7;
-	color:#166534;
-	padding:12px;
-	border-radius:10px;
-	margin:15px 0;
-	font-weight:bold;">
-		✅ KEHADIRAN BERJAYA DIREKOD
-		<div id="statusBox"
-			style="
-			display:none;
-			background:#dcfce7;
-			border-left:6px solid #16a34a;
-			padding:15px;
-			border-radius:8px;
-			font-weight:bold;
-			color:#166534;">
-		</div>
-
-</div>
+<div id="statusBox"></div>
 
 <div class="row">
     <div>No. Meja</div>
@@ -163,7 +164,7 @@
 <button
     id="btnKembali"
     class="btn gray"
-    onclick="window.location.href='index.html'"
+    onclick="kembali()"
     style="display:none;">
     ← KEMBALI
 </button>
@@ -188,15 +189,27 @@ if(user){
 	updateButtonStatus(user);
 }else{
 
-    document.querySelector(".card").innerHTML =
-        "<h2>❌ Data tidak dijumpai</h2>";
+    document.querySelector(".card").innerHTML=`
+	<h2>❌ Data tidak dijumpai</h2>
+	<p>Kembali ke halaman utama...</p>
+	`;
 
+	setTimeout(function(){
+		window.location.href="index.html";
+	},3000);
 }
 
 // BUTTON
 async function sahHadir(){
+	
+	const btn = document.getElementById("btnHadir");
 
+    if(btn.disabled) return;
+	
     const peserta = JSON.parse(localStorage.getItem("peserta"));
+	if(!confirm("Adakah anda ingin mengesahkan kehadiran?")){
+		return;
+	}
 
     if(!peserta){
         alert("Maklumat peserta tidak dijumpai.");
@@ -204,10 +217,8 @@ async function sahHadir(){
         return;
     }
 
-    const btn = document.getElementById("btnHadir");
-
     btn.disabled = true;
-    btn.innerHTML = "Memproses...";
+    btn.innerHTML="⏳ Sedang merekod...";
 
     try{
 
@@ -221,31 +232,35 @@ async function sahHadir(){
 
         if(result.status){
 
-            peserta.hadir = "HADIR";
+            peserta.hadir="HADIR";
+			peserta.tarikh=result.tarikh;
+			peserta.masa=result.masa;
 
-            localStorage.setItem(
-                "peserta",
-                JSON.stringify(peserta)
-            );
-
-            const sekarang = new Date().toLocaleString("ms-MY");
-
-            document.getElementById("statusBox").innerHTML =
-                "✅ Kehadiran berjaya direkod pada " + sekarang;
+			localStorage.setItem(
+				"peserta",
+				JSON.stringify(peserta)
+			);
 
             updateButtonStatus(peserta);
 
         }else{
 
-            alert(result.message);
+            
 
             if(result.message.includes("telah hadir")){
 
-                peserta.hadir = "HADIR";
-                updateButtonStatus(peserta);
+				peserta.hadir="HADIR";
+				peserta.tarikh=result.tarikh;
+				peserta.masa=result.masa;
 
-            }else{
+				localStorage.setItem(
+					"peserta",
+					JSON.stringify(peserta)
+				);
 
+				updateButtonStatus(peserta);
+			}else{
+				alert(result.message);
                 btn.disabled = false;
                 btn.innerHTML = "✔ SAHKAN KEHADIRAN";
 
@@ -265,17 +280,36 @@ async function sahHadir(){
 
 }
 
-function updateButtonStatus(user){
+	function updateButtonStatus(user){
 
-    if(user && user.hadir === "HADIR"){
+    if(user && user.hadir==="HADIR"){
 
-        document.getElementById("btnHadir").style.display = "none";
-        document.getElementById("btnKembali").style.display = "block";
-        document.getElementById("statusBox").style.display = "block";
+        document.getElementById("btnHadir").style.display="none";
+        document.getElementById("btnKembali").style.display="block";
 
+        const box=document.getElementById("statusBox");
+
+        box.style.display="block";
+
+        box.innerHTML=`
+            <div style="font-size:40px;">✅</div>
+
+            <div style="font-size:18px;font-weight:bold;margin-top:8px;">
+                Kehadiran Berjaya Direkod
+            </div>
+
+            <div style="margin-top:8px;font-size:13px;">
+				${user.tarikh && user.masa ? user.tarikh + " " + user.masa : ""}
+			</div>
+        `;
     }
 
 }
+
+	function kembali(){
+		localStorage.removeItem("peserta");
+		window.location.href="index.html";
+	}
 
 </script>
 
