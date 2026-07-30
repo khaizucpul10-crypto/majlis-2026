@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<script src="config.js"></script>
+
+<title>Dashboard Kehadiran</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Segoe UI;
+    background:#f4f6fb;
+}
+
+.header{
+    background:#1e3a8a;
+    color:white;
+    padding:18px;
+    text-align:center;
+    font-size:24px;
+    font-weight:bold;
+}
+
+.container{
+    width:95%;
+    margin:auto;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+    margin-top:20px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.card h3{
+    margin:0;
+    color:#555;
+}
+
+.card h1{
+    margin-top:10px;
+    color:#1e3a8a;
+    font-size:42px;
+}
+
+.search{
+    margin-top:20px;
+}
+
+.search input{
+
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:16px;
+
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+    background:white;
+
+}
+
+th{
+
+    background:#1e3a8a;
+    color:white;
+    padding:12px;
+
+}
+
+td{
+
+    padding:10px;
+    border-bottom:1px solid #eee;
+
+}
+
+.hadir{
+
+    color:green;
+    font-weight:bold;
+
+}
+
+.belum{
+
+    color:red;
+    font-weight:bold;
+
+}
+
+.footer{
+
+    text-align:center;
+    margin:20px;
+    color:#777;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+Dashboard Kehadiran Tetamu
+
+</div>
+
+<div class="container">
+
+<div class="cards">
+
+<div class="card">
+<h3>Jumlah Peserta</h3>
+<h1 id="jumlah">0</h1>
+</div>
+
+<div class="card">
+<h3>Hadir</h3>
+<h1 id="hadir">0</h1>
+</div>
+
+<div class="card">
+<h3>Belum Hadir</h3>
+<h1 id="belum">0</h1>
+</div>
+
+<div class="card">
+<h3>Peratus</h3>
+<h1 id="peratus">0%</h1>
+</div>
+
+</div>
+
+<div class="search">
+
+<input
+type="text"
+id="carian"
+placeholder="Cari Nama atau No KP..."
+onkeyup="paparJadual()">
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Bil</th>
+<th>Nama</th>
+<th>No KP</th>
+<th>Tempat</th>
+<th>Meja</th>
+<th>Kerusi</th>
+<th>Status</th>
+<th>Masa</th>
+
+</tr>
+
+</thead>
+
+<tbody id="senarai">
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="footer">
+
+Auto Refresh setiap 5 saat
+
+</div>
+
+<script>
+
+let semuaPeserta=[];
+
+async function loadDashboard(){
+
+    const response=await fetch(API_URL+"?action=dashboard");
+
+    const data=await response.json();
+
+    document.getElementById("jumlah").innerHTML=data.jumlah;
+    document.getElementById("hadir").innerHTML=data.hadir;
+    document.getElementById("belum").innerHTML=data.belum;
+    document.getElementById("peratus").innerHTML=data.peratus+"%";
+
+    semuaPeserta=data.peserta;
+
+    paparJadual();
+
+}
+
+function paparJadual(){
+
+    let keyword=document
+    .getElementById("carian")
+    .value
+    .toLowerCase();
+
+    let html="";
+
+    let bil=1;
+
+    semuaPeserta.forEach(function(p){
+
+        if(
+
+            p.nama.toLowerCase().includes(keyword)
+
+            ||
+
+            String(p.ic).includes(keyword)
+
+        ){
+
+            html+=`
+
+<tr>
+
+<td>${bil++}</td>
+
+<td>${p.nama}</td>
+
+<td>${p.ic}</td>
+
+<td>${p.tempat}</td>
+
+<td>${p.meja}</td>
+
+<td>${p.kerusi}</td>
+
+<td class="${p.status=="HADIR"?"hadir":"belum"}">
+
+${p.status}
+
+</td>
+
+<td>${p.masa}</td>
+
+</tr>
+
+`;
+
+        }
+
+    });
+
+    document.getElementById("senarai").innerHTML=html;
+
+}
+
+loadDashboard();
+
+setInterval(loadDashboard,5000);
+
+</script>
+
+</body>
+</html>
