@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="config.js"></script>
+
+<title>Dashboard Admin</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Segoe UI;
+    background:#f4f6fb;
+}
+
+.header{
+
+    background:#1e3a8a;
+    color:white;
+    padding:18px;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+
+}
+
+.container{
+
+    padding:15px;
+
+}
+
+.card{
+
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:15px;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+
+}
+
+.stat{
+
+    font-size:30px;
+    font-weight:bold;
+    color:#1e3a8a;
+
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+th{
+
+    background:#1e3a8a;
+    color:white;
+    padding:10px;
+
+}
+
+td{
+
+    padding:8px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+
+}
+
+input{
+
+    width:100%;
+    padding:12px;
+    font-size:16px;
+    margin-bottom:15px;
+
+}
+
+.hadir{
+
+    color:green;
+    font-weight:bold;
+
+}
+
+.belum{
+
+    color:red;
+    font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+Dashboard Kehadiran Majlis
+
+</div>
+
+<div class="container">
+
+<div class="card">
+
+Jumlah Peserta
+
+<div class="stat" id="jumlah"></div>
+
+</div>
+
+<div class="card">
+
+Hadir
+
+<div class="stat" id="hadir"></div>
+
+</div>
+
+<div class="card">
+
+Belum Hadir
+
+<div class="stat" id="belum"></div>
+
+</div>
+
+<div class="card">
+
+Peratus Kehadiran
+
+<div class="stat" id="peratus"></div>
+
+</div>
+
+<input
+type="text"
+id="search"
+placeholder="Cari Nama atau No IC..."
+onkeyup="filterTable()">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Nama</th>
+<th>Tempat</th>
+<th>Meja</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tbody">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script>
+
+async function loadDashboard(){
+
+    const response =
+        await fetch(API_URL+"?action=dashboard");
+
+    const data =
+        await response.json();
+
+    document.getElementById("jumlah").innerHTML=data.jumlah;
+
+    document.getElementById("hadir").innerHTML=data.hadir;
+
+    document.getElementById("belum").innerHTML=data.belum;
+
+    document.getElementById("peratus").innerHTML=data.peratus+"%";
+
+    let html="";
+
+    data.peserta.forEach(function(p){
+
+        html+=`
+
+<tr>
+
+<td>${p.nama}</td>
+
+<td>${p.tempat}</td>
+
+<td>${p.meja}</td>
+
+<td class="${p.status=="HADIR"?"hadir":"belum"}">
+
+${p.status}
+
+</td>
+
+</tr>
+
+`;
+
+    });
+
+    document.getElementById("tbody").innerHTML=html;
+
+}
+
+function filterTable(){
+
+    let key=document
+        .getElementById("search")
+        .value
+        .toUpperCase();
+
+    let tr=document
+        .getElementById("tbody")
+        .getElementsByTagName("tr");
+
+    for(let i=0;i<tr.length;i++){
+
+        let txt=tr[i].innerText.toUpperCase();
+
+        tr[i].style.display=
+            txt.indexOf(key)>-1?"":"none";
+
+    }
+
+}
+
+loadDashboard();
+
+setInterval(loadDashboard,30000);
+
+</script>
+
+</body>
+
+</html>
