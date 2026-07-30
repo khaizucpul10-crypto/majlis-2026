@@ -15,7 +15,7 @@ body{
     margin:0;
     font-family:Segoe UI;
     background:#f4f6fb;
-}
+	}
 
 .header{
     background:#1e3a8a;
@@ -24,37 +24,53 @@ body{
     text-align:center;
     font-size:24px;
     font-weight:bold;
-}
+	}
 
 .container{
     width:95%;
     margin:auto;
-}
+	}
 
 .cards{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:15px;
     margin-top:20px;
-}
+	}
 
-.card{
-    background:white;
-    border-radius:15px;
-    padding:20px;
-    text-align:center;
-    box-shadow:0 5px 15px rgba(0,0,0,.1);
-}
+	.card:nth-child(1){
+	background:#2563eb;
+	}
+
+	.card:nth-child(2){
+	background:#16a34a;
+	}
+
+	.card:nth-child(3){
+	background:#dc2626;
+	}
+
+	.card:nth-child(4){
+	background:#7c3aed;
+	}
 
 .card h3{
     margin:0;
-    color:#555;
-}
+    color:white;
+	}
 
 .card h1{
-    margin-top:10px;
-    color:#1e3a8a;
-    font-size:42px;
+		margin-top:10px;
+		color:white;
+		font-size:42px;
+	}
+
+.card{
+    color:white;
+    border-radius:15px;
+    padding:20px;
+	color:white;
+	box-shadow:0 8px 18px rgba(0,0,0,.15);
 }
 
 .search{
@@ -62,61 +78,98 @@ body{
 }
 
 .search input{
-
-    width:100%;
-    padding:14px;
-    border-radius:10px;
-    border:1px solid #ccc;
-    font-size:16px;
-
+	width:400px;
+	max-width:100%;
+	padding:15px;
+	font-size:17px;
 }
 
 table{
-
     width:100%;
     border-collapse:collapse;
-    margin-top:20px;
     background:white;
+}
 
+tbody tr:hover{
+    background:#eef4ff;
 }
 
 th{
-
     background:#1e3a8a;
     color:white;
     padding:12px;
-
 }
 
 td{
-
     padding:10px;
     border-bottom:1px solid #eee;
-
 }
 
 .hadir{
-
-    color:green;
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#dcfce7;
+    color:#166534;
     font-weight:bold;
-
 }
 
 .belum{
-
-    color:red;
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#fee2e2;
+    color:#991b1b;
     font-weight:bold;
-
 }
 
 .footer{
-
     text-align:center;
     margin:20px;
     color:#777;
+}
+
+.baruHadir{
+
+animation:blink 1s infinite;
 
 }
 
+@keyframes blink{
+
+0%{
+
+background:#dcfce7;
+
+}
+
+50%{
+
+background:#ffffff;
+
+}
+
+100%{
+
+background:#dcfce7;
+
+}
+
+}
+
+thead{
+	position:sticky;
+	top:0;
+	z-index:10;
+	}
+
+.table-container{
+	max-height:550px;
+	overflow:auto;
+	background:white;
+	border-radius:10px;
+	box-shadow:0 3px 10px rgba(0,0,0,.1);
+	}
 </style>
 
 </head>
@@ -125,7 +178,17 @@ td{
 
 <div class="header">
 
-Dashboard Kehadiran Tetamu
+	<div style="font-size:28px;font-weight:bold">
+	Dashboard Kehadiran
+	</div>
+
+	<div style="font-size:17px;margin-top:6px">
+	Majlis Kenaikan Pangkat
+	</div>
+
+	<div style="font-size:14px">
+	PPD Tawau Tahun 2026
+	</div>
 
 </div>
 
@@ -156,6 +219,14 @@ Dashboard Kehadiran Tetamu
 </div>
 
 <div class="search">
+<div id="lastUpdate"
+	style="
+	margin-top:15px;
+	text-align:right;
+	color:#666;
+	font-size:13px;">
+	Kemaskini terakhir : -
+</div>
 
 <input
 type="text"
@@ -164,32 +235,25 @@ placeholder="Cari Nama atau No KP..."
 onkeyup="paparJadual()">
 
 </div>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Bil</th>
-<th>Nama</th>
-<th>No KP</th>
-<th>Tempat</th>
-<th>Meja</th>
-<th>Kerusi</th>
-<th>Status</th>
-<th>Masa</th>
-
-</tr>
-
-</thead>
-
-<tbody id="senarai">
-
-</tbody>
-
-</table>
-
+<div id="bilRekod"></div>
+<div class="table-container">
+	<table>
+		<thead>
+			<tr>
+			<th>Bil</th>
+			<th>Nama</th>
+			<th>No KP</th>
+			<th>Tempat</th>
+			<th>Meja</th>
+			<th>Kerusi</th>
+			<th>Status</th>
+			<th>Masa</th>
+			</tr>
+		</thead>
+		<tbody id="senarai">
+		</tbody>
+	</table>
+</div>
 </div>
 
 <div class="footer">
@@ -214,7 +278,14 @@ async function loadDashboard(){
     document.getElementById("peratus").innerHTML=data.peratus+"%";
 
     semuaPeserta=data.peserta;
+	semuaPeserta.sort(function(a,b){
+		if(a.status==b.status) return 0;
+		return a.status=="HADIR" ? -1 : 1;
+	});
 
+	document.getElementById("lastUpdate").innerHTML =
+		"Kemaskini terakhir : " +
+		new Date().toLocaleTimeString("ms-MY");
     paparJadual();
 
 }
@@ -275,12 +346,17 @@ ${p.status}
     });
 
     document.getElementById("senarai").innerHTML=html;
-
+	document.getElementById("bilRekod").innerHTML =
+	"Jumlah rekod dipaparkan : " + (bil-1);
 }
 
 loadDashboard();
 
-setInterval(loadDashboard,5000);
+setInterval(async()=>{
+
+await loadDashboard();
+
+},3000);
 
 </script>
 
