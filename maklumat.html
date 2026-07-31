@@ -45,6 +45,8 @@
 			font-size:20px;
 			font-weight:bold;
 			margin-top:10px;
+			word-break:break-word;
+			overflow-wrap:anywhere;
 		}
 
 		.ic{
@@ -98,19 +100,23 @@
 			font-weight:bold;
 			text-align:center;
 			color:#1e3a8a;
-			font-family:cursive;
+			font-family: Georgia, serif;
 		}
 		
 		.perjawatan{
 			font-size:13px;
 			text-align:center;
 			color:#1e3a8a;
+			word-break:break-word;
+			overflow-wrap:anywhere;
 		}
 		
 		.penempatan{
 			font-size:13px;
 			text-align:center;
 			color:#1e3a8a;
+			word-break:break-word;
+			overflow-wrap:anywhere;
 		}
 		
 		#statusBox{
@@ -125,6 +131,47 @@
 			font-weight:bold;
 		}
 		
+		.spinner{
+			display:inline-block;
+			width:16px;
+			height:16px;
+			margin-right:8px;
+			border:2px solid #fff;
+			border-top:2px solid transparent;
+			border-radius:50%;
+			animation:spin .8s linear infinite;
+			vertical-align:middle;
+		}
+
+		@keyframes spin{
+			to{
+				transform:rotate(360deg);
+			}
+		}
+		
+		.row{
+			display:flex;
+			justify-content:space-between;
+			align-items:flex-start;
+			gap:10px;
+			margin-top:15px;
+			font-size:14px;
+		}
+		
+		.row div:first-child{
+			flex:1;
+		}
+
+		.row div:last-child{
+			flex:1;
+			text-align:right;
+		}
+
+		.btn:disabled{
+			opacity:.8;
+			cursor:not-allowed;
+			pointer-events:none;
+		}
 	</style>
 
 </head>
@@ -167,7 +214,7 @@
     <div class="big" id="kerusi"></div>
 </div>
 
-<!--button class="btn green" onclick="sahHadir()">✔ SAHKAN KEHADIRAN</button-->
+<!--button class="btn green" onclick="sahHadir()">✔ SILA SAHKAN KEHADIRAN</button-->
 <button id="btnHadir" class="btn green" onclick="sahHadir()">
     ✔ SILA SAHKAN KEHADIRAN
 </button>
@@ -186,17 +233,23 @@
 </div>
 
 <script>
-const user = JSON.parse(localStorage.getItem("peserta"));
+let user=null;
+
+try{
+    user=JSON.parse(localStorage.getItem("peserta"));
+	}catch(e){
+		localStorage.removeItem("peserta");
+	}
 
 if(user){
 
-    document.getElementById("nama").innerText = user.nama;
-    document.getElementById("noic").innerText = "No. IC: " + user.ic;
-    document.getElementById("jawatan").innerText = user.jawatan;
-    document.getElementById("tempat").innerText = user.tempat;
-    document.getElementById("ket").innerText = user.gred;
-    document.getElementById("meja").innerText = user.meja;
-    document.getElementById("kerusi").innerText = user.kerusi;
+    document.getElementById("nama").textContent  = user.nama;
+    document.getElementById("noic").textContent  = "No. IC: " + user.ic;
+    document.getElementById("jawatan").textContent  = user.jawatan;
+    document.getElementById("tempat").textContent  = user.tempat;
+    document.getElementById("ket").textContent  = user.gred;
+    document.getElementById("meja").textContent  = user.meja;
+    document.getElementById("kerusi").textContent  = user.kerusi;
 	updateButtonStatus(user);
 }else{
 
@@ -206,7 +259,7 @@ if(user){
 	`;
 
 	setTimeout(function(){
-		window.location.href="index.html";
+		window.location.replace("index.html");
 	},3000);
 }
 
@@ -217,108 +270,171 @@ async function sahHadir(){
 
     if(btn.disabled) return;
 	
-    const peserta = JSON.parse(localStorage.getItem("peserta"));
+    let peserta;
+
+try{
+    peserta = JSON.parse(localStorage.getItem("peserta"));
+	}catch(e){
+		localStorage.removeItem("peserta");
+		peserta = null;
+	}
 	if(!confirm("Adakah anda ingin mengesahkan kehadiran?")){
 		return;
 	}
 
     if(!peserta){
         alert("Maklumat peserta tidak dijumpai.");
-        window.location.href = "index.html";
+        window.location.replace("index.html");
         return;
     }
 
     btn.disabled = true;
-    btn.innerHTML="⏳ Sedang merekod...";
+    btn.innerHTML='<span class="spinner"></span> Sedang merekod kehadiran...';
 
-    try{
+    let timeoutId;
 
-        const response = await fetch(
-            API_URL +
-            "?action=hadir&ic=" +
-            encodeURIComponent(peserta.ic)
-        );
+	try{
 
-        const result = await response.json();
+		const controller = new AbortController();
+
+		timeoutId = setTimeout(() => {
+			controller.abort();
+		}, 15000);
+
+		const response = await fetch(
+			API_URL +
+			"?action=hadir&ic=" +
+			encodeURIComponent(peserta.ic),
+		{
+			signal: controller.signal,
+			cache:"no-store",
+			headers:{
+				"Cache-Control":"no-cache"
+			}
+		});
+
+		clearTimeout(timeoutId);
+		
+		if(!response.ok){
+			throw new Error(
+				"Server Error " +
+				response.status +
+				" : " +
+				response.statusText
+			);
+		}
+		
+		const contentType = response.headers.get("content-type");
+
+		if(!contentType || !contentType.includes("application/json")){
+			throw new Error("Server tidak menghantar JSON.");
+		}
+		let result;
+
+		try{
+			result = await response.json();
+		}catch(e){
+			throw new Error("Server menghantar data yang tidak sah.");
+		}
 
         if(result.status){
+			simpanPesertaHadir(peserta,result);
+		}
+		else if(
+			typeof result.message === "string" &&
+			result.message.includes("telah hadir")
+		){
+			simpanPesertaHadir(peserta,result);
+		}
+		else{
 
-            peserta.hadir="HADIR";
-			peserta.tarikh=result.tarikh;
-			peserta.masa=result.masa;
+			alert(result.message || "Ralat semasa merekod kehadiran.");
 
-			localStorage.setItem(
-				"peserta",
-				JSON.stringify(peserta)
+			btn.disabled=false;
+			btn.innerHTML="✔ SILA SAHKAN KEHADIRAN";
+
+		}
+
+		}catch(err){
+
+		btn.disabled = false;
+		btn.innerHTML = "✔ SILA SAHKAN KEHADIRAN";
+
+		console.error(err);
+
+		if(err.name === "AbortError"){
+			alert("Sambungan mengambil masa terlalu lama.\nSila cuba semula.");
+		}
+		else if(err.message?.startsWith("Server Error")){
+			alert(
+				"Ralat Sistem\n\n" +
+				err.message
 			);
+		}
+		else if(err.message === "Server tidak menghantar JSON."){
+			alert(err.message);
+		}
+		else if(err.message === "Server menghantar data yang tidak sah."){
+			alert(err.message);
+		}
+		else{
+			alert("Tidak dapat berhubung dengan server.");
+		}
 
-            updateButtonStatus(peserta);
-
-        }else{
-
-            
-
-            if(result.message.includes("telah hadir")){
-
-				peserta.hadir="HADIR";
-				peserta.tarikh=result.tarikh;
-				peserta.masa=result.masa;
-
-				localStorage.setItem(
-					"peserta",
-					JSON.stringify(peserta)
-				);
-
-				updateButtonStatus(peserta);
-			}else{
-				alert(result.message);
-                btn.disabled = false;
-                btn.innerHTML = "✔ SAHKAN KEHADIRAN";
-
-            }
-
-        }
-
-    }catch(err){
-
-        btn.disabled = false;
-        btn.innerHTML = "✔ SAHKAN KEHADIRAN";
-
-        console.log(err);
-        alert("Tidak dapat berhubung dengan server.");
-
-    }
+	}finally{
+		clearTimeout(timeoutId);
+	}
 
 }
 
 	function updateButtonStatus(user){
 
-    if(user && user.hadir==="HADIR"){
+		const btnHadir=document.getElementById("btnHadir");
+		const btnKembali=document.getElementById("btnKembali");
+		const box=document.getElementById("statusBox");
 
-        document.getElementById("btnHadir").style.display="none";
-        document.getElementById("btnKembali").style.display="block";
+		if(user && user.hadir==="HADIR"){
 
-        const box=document.getElementById("statusBox");
+			btnHadir.style.display="none";
+			btnKembali.style.display="block";
 
-        box.style.display="block";
+			box.style.display="block";
 
-        box.innerHTML=`
-            
-            <div style="font-size:15px;font-weight:bold;margin-top:6px;">
-                ✅ Kehadiran Berjaya Direkod
-            </div>
+			box.innerHTML=`
+				<div style="font-size:15px;font-weight:bold">
+					✅ Kehadiran Berjaya Direkod
+				</div>
 
-            <div style="margin-top:8px;font-size:13px;">
-				${user.tarikh && user.masa ? user.tarikh + " " + user.masa : ""}
-			</div>
-        `;
-    }
+				<div style="margin-top:8px;font-size:13px">
+					${user.tarikh || ""} ${user.masa || ""}
+				</div>
+			`;
 
-}
+		}else{
+
+			btnHadir.style.display="block";
+			btnKembali.style.display="none";
+			box.style.display="none";
+
+		}
+	}
 
 	function kembali(){
 		localStorage.removeItem("peserta");
-		window.location.href="index.html";
+		sessionStorage.clear();
+		window.location.replace("index.html");
+	}
+	
+	function simpanPesertaHadir(peserta, result){
+		peserta.hadir = "HADIR";
+		peserta.tarikh = result.tarikh;
+		peserta.masa = result.masa;
+
+		localStorage.setItem(
+			"peserta",
+			JSON.stringify(peserta)
+		);
+		updateButtonStatus(peserta);
 	}
 
 </script>
