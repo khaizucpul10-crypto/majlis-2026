@@ -304,14 +304,8 @@ try{
 		const response = await fetch(
 			API_URL +
 			"?action=hadir&ic=" +
-			encodeURIComponent(peserta.ic),
-		{
-			signal: controller.signal,
-			cache:"no-store",
-			headers:{
-				"Cache-Control":"no-cache"
-			}
-		});
+			encodeURIComponent(peserta.ic)
+		);
 
 		clearTimeout(timeoutId);
 		
