@@ -130,10 +130,8 @@ td{
 }
 
 .baruHadir{
-
-animation:blink 1s infinite;
-
-}
+	animation:blink 1s infinite;
+	}
 
 @keyframes blink{
 
@@ -263,7 +261,9 @@ Auto Refresh setiap 5 saat
 </div>
 
 <script>
-
+if(sessionStorage.getItem("admin")!="true"){
+    window.location.replace("login.html");
+}
 let semuaPeserta=[];
 
 async function loadDashboard(){
