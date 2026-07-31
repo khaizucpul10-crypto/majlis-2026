@@ -268,25 +268,54 @@ let semuaPeserta=[];
 
 async function loadDashboard(){
 
-    const response=await fetch(API_URL+"?action=dashboard");
+    try{
 
-    const data=await response.json();
+        const response = await fetch(
+            API_URL + "?action=dashboard",
+            {
+                cache:"no-store"
+            }
+        );
 
-    document.getElementById("jumlah").innerHTML=data.jumlah;
-    document.getElementById("hadir").innerHTML=data.hadir;
-    document.getElementById("belum").innerHTML=data.belum;
-    document.getElementById("peratus").innerHTML=data.peratus+"%";
+        if(!response.ok){
+            throw new Error("Server Error");
+        }
 
-    semuaPeserta=data.peserta;
-	semuaPeserta.sort(function(a,b){
-		if(a.status==b.status) return 0;
-		return a.status=="HADIR" ? -1 : 1;
-	});
+        const data = await response.json();
 
-	document.getElementById("lastUpdate").innerHTML =
-		"Kemaskini terakhir : " +
-		new Date().toLocaleTimeString("ms-MY");
-    paparJadual();
+        document.getElementById("jumlah").textContent = data.jumlah;
+        document.getElementById("hadir").textContent = data.hadir;
+        document.getElementById("belum").textContent = data.belum;
+        document.getElementById("peratus").textContent = data.peratus+"%";
+
+        semuaPeserta = data.peserta;
+
+        semuaPeserta.sort(function(a,b){
+
+            if(a.status==b.status){
+                return a.nama.localeCompare(b.nama);
+            }
+
+            return a.status=="HADIR" ? -1 : 1;
+
+        });
+
+        document.getElementById("lastUpdate").innerHTML=
+        "Kemaskini terakhir : "
+        +new Date().toLocaleTimeString("ms-MY");
+
+        paparJadual();
+
+    }
+
+    catch(err){
+
+        console.error(err);
+
+        document.getElementById("lastUpdate").innerHTML=
+        "❌ Tidak dapat berhubung dengan server";
+
+    }
 
 }
 
