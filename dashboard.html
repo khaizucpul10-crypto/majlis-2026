@@ -130,28 +130,21 @@
 
 		.baruHadir{
 			animation:blink 1s infinite;
-			}
+			font-weight:bold;
+		}
 
 		@keyframes blink{
+			0%{
+				background:#bbf7d0;
+			}
 
-		0%{
+			50%{
+				background:#ffffff;
+			}
 
-		background:#dcfce7;
-
-		}
-
-		50%{
-
-		background:#ffffff;
-
-		}
-
-		100%{
-
-		background:#dcfce7;
-
-		}
-
+			100%{
+				background:#bbf7d0;
+			}
 		}
 
 		thead{
@@ -295,9 +288,9 @@
 		if(sessionStorage.getItem("admin")!="true"){
 			window.location.replace("login.html");
 		}
-		let semuaPeserta=[];
-		
+		let semuaPeserta=[];		
 		let pesertaLama = {};
+		let pesertaHighlight = "";
 
 		async function loadDashboard(){
 			try{
@@ -337,6 +330,7 @@
 						p.status === "HADIR"
 					){
 						pesertaBaru = p;
+						pesertaHighlight = p.ic;
 					}
 
 				});
@@ -368,7 +362,9 @@
 
 					setTimeout(function(){
 						notif.style.display = "none";
-					},5000);
+						pesertaHighlight = "";
+						paparJadual();
+					},10000);
 				}
 			}
 
@@ -398,21 +394,35 @@
 					||
 					String(p.ic).includes(keyword)
 				){
-					html+=`
+					html += `
 
-					<tr>
+					<tr class="${
+						pesertaHighlight === p.ic
+							? 'baruHadir'
+							: ''
+					}">
+
 					<td>${bil++}</td>
+
 					<td>${p.nama}</td>
+
 					<td>${p.ic}</td>
+
 					<td>${p.tempat}</td>
+
 					<td>${p.meja}</td>
+
 					<td>${p.kerusi}</td>
+
 					<td class="${p.status=="HADIR"?"hadir":"belum"}">
 					${p.status}
 					</td>
+
 					<td>${p.masa}</td>
+
 					</tr>
-		`;
+
+					`;
 				}
 
 			});
