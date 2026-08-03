@@ -384,6 +384,7 @@
 				if(pesertaBaru){
 					const notif = document.getElementById("liveNotification");
 					notif.style.display = "block";
+					bunyiNotifikasi();
 
 					notif.innerHTML =
 						"✅ " +
@@ -475,6 +476,17 @@
 				}
 			}
 
+		function bunyiNotifikasi(){
+			const audio = new Audio(
+				"https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"
+			);
+
+			audio.volume = 0.7;
+			audio.play().catch(function(err){
+				console.log("Audio tidak dapat dimainkan.", err);
+			});
+
+		}
 	</script>
 
 </body>
