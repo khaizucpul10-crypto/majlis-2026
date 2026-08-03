@@ -221,6 +221,18 @@
 			</div>
 
 		</div>
+		
+		<div id="liveNotification"
+			style="
+			display:none;
+			margin-top:20px;
+			padding:15px;
+			background:#dcfce7;
+			border-left:6px solid #16a34a;
+			border-radius:10px;
+			font-weight:bold;
+			font-size:16px;">
+		</div>
 
 		<div class="search">
 			<div id="lastUpdate"
@@ -269,6 +281,8 @@
 			window.location.replace("login.html");
 		}
 		let semuaPeserta=[];
+		
+		let pesertaLama = {};
 
 		async function loadDashboard(){
 			try{
@@ -284,6 +298,8 @@
 				}
 
 				const data = await response.json();
+				const statusLama = {...pesertaLama};
+				pesertaLama = {};
 
 				document.getElementById("jumlah").textContent = data.jumlah;
 				document.getElementById("hadir").textContent = data.hadir;
@@ -292,7 +308,33 @@
 
 				semuaPeserta = data.peserta;
 
+				let pesertaBaru = null;
+
+				semuaPeserta.forEach(function(p){
+
+					// Simpan status semasa
+					pesertaLama[p.ic] = p.status;
+
+					// Jika sebelum ini BELUM HADIR, sekarang HADIR
+					if(
+						statusLama[p.ic] &&
+						statusLama[p.ic] !== "HADIR" &&
+						p.status === "HADIR"
+					){
+						pesertaBaru = p;
+					}
+
+				});
+
 				semuaPeserta.sort(function(a,b){
+
+					if(a.status==b.status){
+						return a.nama.localeCompare(b.nama);
+					}
+
+					return a.status=="HADIR" ? -1 : 1;
+
+				});
 
 				if(a.status==b.status){
 					return a.nama.localeCompare(b.nama);
@@ -305,6 +347,20 @@
 				+new Date().toLocaleTimeString("ms-MY");
 
 				paparJadual();
+				
+				if(pesertaBaru){
+					const notif = document.getElementById("liveNotification");
+					notif.style.display = "block";
+
+					notif.innerHTML =
+						"✅ " +
+						pesertaBaru.nama +
+						" telah mengesahkan kehadiran.";
+
+					setTimeout(function(){
+						notif.style.display = "none";
+					},5000);
+				}
 			}
 
 			catch(err){
