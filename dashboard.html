@@ -336,12 +336,6 @@
 
 				});
 
-				if(a.status==b.status){
-					return a.nama.localeCompare(b.nama);
-					}
-					return a.status=="HADIR" ? -1 : 1;
-				});
-
 				document.getElementById("lastUpdate").innerHTML=
 				"Kemaskini terakhir : "
 				+new Date().toLocaleTimeString("ms-MY");
