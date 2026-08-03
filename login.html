@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -14,83 +13,56 @@
 body{
     margin:0;
     font-family:Segoe UI;
-    background:#f4f6fb;
+    background:#1e3a8a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
-.login-box{
-
-    width:350px;
-    max-width:90%;
-    margin:80px auto;
-
+.box{
     background:white;
-
+    width:360px;
+    max-width:90%;
     padding:30px;
-
     border-radius:15px;
-
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
-
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
 }
 
 h2{
-
-text-align:center;
-
-color:#1e3a8a;
-
+    margin-top:0;
+    text-align:center;
+    color:#1e3a8a;
 }
 
 input{
-
-width:100%;
-
-padding:15px;
-
-margin-top:15px;
-
-font-size:16px;
-
-box-sizing:border-box;
-
+    width:100%;
+    padding:14px;
+    margin-top:15px;
+    font-size:16px;
+    box-sizing:border-box;
 }
 
 button{
-
-width:100%;
-
-padding:15px;
-
-margin-top:20px;
-
-font-size:16px;
-
-background:#16a34a;
-
-color:white;
-
-border:none;
-
-border-radius:8px;
-
-cursor:pointer;
-
+    width:100%;
+    padding:15px;
+    margin-top:20px;
+    background:#16a34a;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
 }
 
 button:hover{
-
-background:#15803d;
-
+    background:#15803d;
 }
 
-.error{
-
-margin-top:15px;
-
-text-align:center;
-
-color:red;
-
+#error{
+    color:red;
+    text-align:center;
+    margin-top:15px;
 }
 
 </style>
@@ -99,16 +71,16 @@ color:red;
 
 <body>
 
-<div class="login-box">
+<div class="box">
 
-<h2>Dashboard Admin</h2>
+<h2>LOGIN ADMIN</h2>
 
 <input
-id="user"
+id="username"
 placeholder="Username">
 
 <input
-id="pass"
+id="password"
 type="password"
 placeholder="Password">
 
@@ -118,40 +90,61 @@ LOGIN
 
 </button>
 
-<div id="msg" class="error"></div>
+<div id="error"></div>
 
 </div>
 
 <script>
 
-function login(){
+async function login(){
 
-let u=document.getElementById("user").value.trim();
+    document.getElementById("error").innerHTML="";
 
-let p=document.getElementById("pass").value;
+    const username=document.getElementById("username").value;
+    const password=document.getElementById("password").value;
 
-if(
+    try{
 
-u==ADMIN_USER
+        const body=new URLSearchParams();
 
-&&
+        body.append("action","login");
+        body.append("username",username);
+        body.append("password",password);
 
-p==ADMIN_PASS
+        const response=await fetch(API_URL,{
+            method:"POST",
+            body:body
+        });
 
-){
+        const result=await response.json();
 
-sessionStorage.setItem("admin","true");
+        if(result.status){
 
-window.location="dashboard.html";
+            sessionStorage.setItem("admin","true");
+            sessionStorage.setItem("token",result.token);
+
+            window.location.href="dashboard.html";
+
+        }else{
+
+            document.getElementById("error").innerHTML=result.message;
+
+        }
+
+    }
+
+    catch(err){
+
+        document.getElementById("error").innerHTML="Tidak dapat berhubung dengan server.";
+
+    }
 
 }
-else{
 
-document.getElementById("msg").innerHTML="Username atau Password salah.";
+</script>
 
-}
-
-}
+</body>
+</html>
 
 </script>
 
