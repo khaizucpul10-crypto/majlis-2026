@@ -181,6 +181,47 @@
 				transform:scale(1);
 			}
 		}
+		
+		.progressBox{
+			margin-top:20px;
+			background:white;
+			padding:20px;
+			border-radius:15px;
+			box-shadow:0 5px 15px rgba(0,0,0,.08);
+		}
+
+		.progressTitle{
+			font-size:18px;
+			font-weight:bold;
+			margin-bottom:15px;
+			color:#1e3a8a;
+		}
+
+		.progressBar{
+			width:100%;
+			height:28px;
+			background:#e5e7eb;
+			border-radius:50px;
+			overflow:hidden;
+		}
+
+		.progressFill{
+			width:0%;
+			height:100%;
+			background:linear-gradient(
+				90deg,
+				#16a34a,
+				#22c55e
+			);
+			transition:width .8s;
+		}
+
+		.progressText{
+			margin-top:12px;
+			text-align:center;
+			font-weight:bold;
+			font-size:18px;
+		}
 	</style>
 </head>
 
@@ -251,6 +292,25 @@
 
 		</div>
 		
+		<div class="progressBox">
+			<div class="progressTitle">
+				Kemajuan Kehadiran
+			</div>
+
+			<div class="progressBar">
+				<div
+					id="progressFill"
+					class="progressFill">
+				</div>
+			</div>
+
+			<div
+				id="progressText"
+				class="progressText">
+				0 / 0 Peserta (0%)
+			</div>
+		</div>
+
 		<div class="search">
 			<div id="lastUpdate"
 				style="
