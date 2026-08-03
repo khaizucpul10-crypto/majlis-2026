@@ -128,12 +128,14 @@
 			color:#777;
 		}
 
-		.baruHadir{
-			animation:blink 1s infinite;
-			font-weight:bold;
+		.baruHadir td{
+			animation: blinkRow 0.8s ease-in-out infinite;
+			background: #bbf7d0 !important;
+			transition: background .3s;
 		}
 
-		@keyframes blink{
+		@keyframes blinkRow{
+
 			0%{
 				background:#bbf7d0;
 			}
@@ -145,6 +147,7 @@
 			100%{
 				background:#bbf7d0;
 			}
+
 		}
 
 		thead{
