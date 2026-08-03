@@ -251,18 +251,6 @@
 
 		</div>
 		
-		<div id="liveNotification"
-			style="
-			display:none;
-			margin-top:20px;
-			padding:15px;
-			background:#dcfce7;
-			border-left:6px solid #16a34a;
-			border-radius:10px;
-			font-weight:bold;
-			font-size:16px;">
-		</div>
-
 		<div class="search">
 			<div id="lastUpdate"
 				style="
@@ -335,12 +323,6 @@
 				document.getElementById("belum").textContent = data.belum;
 				document.getElementById("peratus").textContent = data.peratus+"%";
 				
-				if(pesertaBaru){
-					animateCard("hadir");
-					animateCard("belum");
-					animateCard("peratus");
-				}
-
 				semuaPeserta = data.peserta;
 
 				let pesertaBaru = null;
@@ -361,6 +343,12 @@
 					}
 
 				});
+				
+				if(pesertaBaru){
+					animateCard("hadir");
+					animateCard("belum");
+					animateCard("peratus");
+				}
 
 				semuaPeserta.sort(function(a,b){
 
@@ -427,8 +415,10 @@
 
 				console.error(err);
 
-				document.getElementById("lastUpdate").innerHTML=
-				"❌ Tidak dapat berhubung dengan server";
+				alert(err);
+
+				document.getElementById("lastUpdate").innerHTML =
+				"❌ " + err;
 			}
 		}
 
@@ -491,7 +481,7 @@
 
 		setInterval(async()=>{
 			await loadDashboard();
-		},3000);
+		},5000);
 
 		function logout(){
 			if(confirm("Adakah anda ingin log keluar?")){
