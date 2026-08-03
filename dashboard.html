@@ -504,6 +504,8 @@
 		
 		function animateCard(id){
 			const el = document.getElementById(id);
+			if(!el) return;
+
 			el.classList.remove("popNumber");
 			void el.offsetWidth;
 			el.classList.add("popNumber");
