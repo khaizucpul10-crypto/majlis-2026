@@ -354,6 +354,33 @@
 
 				paparJadual();
 				
+				if (pesertaHighlight) {
+					const row = document.querySelector(".baruHadir");
+					if (row) {
+						let on = true;
+						const interval = setInterval(function () {
+
+							row.style.backgroundColor = on ? "#bbf7d0" : "#ffffff";
+
+							row.querySelectorAll("td").forEach(td => {
+								td.style.backgroundColor = on ? "#bbf7d0" : "#ffffff";
+							});
+
+							on = !on;
+						}, 500);
+
+						setTimeout(function () {
+							clearInterval(interval);
+							row.querySelectorAll("td").forEach(td => {
+								td.style.backgroundColor = "";
+							});
+
+							pesertaHighlight = "";
+							paparJadual();
+						}, 10000);
+					}
+				}
+
 				if(pesertaBaru){
 					const notif = document.getElementById("liveNotification");
 					notif.style.display = "block";
