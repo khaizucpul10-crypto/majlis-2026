@@ -163,6 +163,24 @@
 			border-radius:10px;
 			box-shadow:0 3px 10px rgba(0,0,0,.1);
 			}
+			
+		.popNumber{
+			animation: popNumber .6s ease;
+		}
+
+		@keyframes popNumber{
+			0%{
+				transform:scale(1);
+			}
+
+			40%{
+				transform:scale(1.35);
+			}
+
+			100%{
+				transform:scale(1);
+			}
+		}
 	</style>
 </head>
 
@@ -316,6 +334,12 @@
 				document.getElementById("hadir").textContent = data.hadir;
 				document.getElementById("belum").textContent = data.belum;
 				document.getElementById("peratus").textContent = data.peratus+"%";
+				
+				if(pesertaBaru){
+					animateCard("hadir");
+					animateCard("belum");
+					animateCard("peratus");
+				}
 
 				semuaPeserta = data.peserta;
 
@@ -486,6 +510,13 @@
 				console.log("Audio tidak dapat dimainkan.", err);
 			});
 
+		}
+		
+		function animateCard(id){
+			const el = document.getElementById(id);
+			el.classList.remove("popNumber");
+			void el.offsetWidth;
+			el.classList.add("popNumber");
 		}
 	</script>
 
