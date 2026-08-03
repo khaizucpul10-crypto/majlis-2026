@@ -383,6 +383,18 @@
 				document.getElementById("belum").textContent = data.belum;
 				document.getElementById("peratus").textContent = data.peratus+"%";
 				
+				// Update Progress Bar
+				document.getElementById("progressFill").style.width =
+					data.peratus + "%";
+
+				document.getElementById("progressText").textContent =
+					data.hadir +
+					" / " +
+					data.jumlah +
+					" Peserta (" +
+					data.peratus +
+					"%)";
+				
 				semuaPeserta = data.peserta;
 
 				let pesertaBaru = null;
