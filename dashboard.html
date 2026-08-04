@@ -240,6 +240,14 @@
 				<div style="font-size:14px">
 					PPD Tawau Tahun 2026
 				</div>
+				<div id="liveClock"
+					style="
+					margin-top:12px;
+					font-size:18px;
+					font-weight:bold;
+					color:white;
+					line-height:1.5;">
+				</div>
 			</div>
 
 			<button onclick="logout()"
@@ -551,6 +559,9 @@
 
 		loadDashboard();
 
+		updateClock();
+		setInterval(updateClock,1000);
+
 		setInterval(async()=>{
 			await loadDashboard();
 		},5000);
@@ -581,6 +592,61 @@
 			el.classList.remove("popNumber");
 			void el.offsetWidth;
 			el.classList.add("popNumber");
+		}
+		
+		function animateCard(id){
+			const el = document.getElementById(id);
+			el.classList.remove("popNumber");
+			void el.offsetWidth;
+			el.classList.add("popNumber");
+		}
+		
+		function updateClock(){
+			const now = new Date();
+
+			const hari = [
+				"Ahad",
+				"Isnin",
+				"Selasa",
+				"Rabu",
+				"Khamis",
+				"Jumaat",
+				"Sabtu"
+			];
+
+			const bulan = [
+				"Januari",
+				"Februari",
+				"Mac",
+				"April",
+				"Mei",
+				"Jun",
+				"Julai",
+				"Ogos",
+				"September",
+				"Oktober",
+				"November",
+				"Disember"
+			];
+
+			const tarikh =
+				hari[now.getDay()] + "<br>" +
+				String(now.getDate()).padStart(2,"0") +
+				" " +
+				bulan[now.getMonth()] +
+				" " +
+				now.getFullYear();
+
+			const masa =
+				String(now.getHours()).padStart(2,"0") + ":" +
+				String(now.getMinutes()).padStart(2,"0") + ":" +
+				String(now.getSeconds()).padStart(2,"0");
+
+			document.getElementById("liveClock").innerHTML =
+				tarikh +
+				"<br><span style='font-size:30px'>" +
+				masa +
+				"</span>";
 		}
 	</script>
 
