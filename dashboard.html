@@ -607,6 +607,7 @@
 
 				paparJadual();
 				paparAktiviti();
+				paparKategori();
 				
 				if (pesertaHighlight) {
 					const row = document.querySelector(".baruHadir");
@@ -781,6 +782,60 @@
 			}
 			document.getElementById("activityList").innerHTML = html;
 			document.getElementById("activityList").innerHTML = html;
+		}
+		
+		function paparKategori(){
+			const kategori = {};
+			semuaPeserta.forEach(function(p){
+				const namaKategori = p.gred || "Lain-lain";
+				if(!kategori[namaKategori]){
+
+					kategori[namaKategori] = {
+						jumlah:0,
+						hadir:0
+					};
+				}
+
+				kategori[namaKategori].jumlah++;
+
+				if(p.status==="HADIR"){
+					kategori[namaKategori].hadir++;
+				}
+			});
+
+			let html="";
+
+			Object.keys(kategori)
+			.sort()
+			.forEach(function(k){
+				const jumlah = kategori[k].jumlah;
+				const hadir = kategori[k].hadir;
+				const peratus = jumlah===0
+					?0
+					:Math.round((hadir/jumlah)*100);
+
+				html += `
+
+				<div class="categoryItem">
+					<div class="categoryTitle">
+						${k}
+					</div>
+
+					<div class="progressWrap">
+						<div
+							class="progressFill"
+							style="width:${peratus}%">
+						</div>
+					</div>
+
+					<div class="categoryInfo">
+						${hadir} hadir daripada ${jumlah}
+						(${peratus}%)
+					</div>
+				</div>
+				`;
+			});
+			document.getElementById("categoryStats").innerHTML = html;
 		}
 
 		loadDashboard();
