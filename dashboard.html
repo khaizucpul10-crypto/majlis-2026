@@ -29,6 +29,25 @@
 			width:95%;
 			margin:auto;
 			}
+			
+		.dashboardLayout{
+			display:grid;
+			grid-template-columns:300px 1fr;
+			gap:15px;
+			margin-top:15px;
+			align-items:start;
+		}
+
+		.leftPanel{
+			display:flex;
+			flex-direction:column;
+			gap:15px;
+		}
+
+		.rightPanel{
+			display:flex;
+			flex-direction:column;
+		}
 
 		.cards{
 			display:grid;
@@ -458,7 +477,27 @@
 				<div class="leftPanel">
 					<!-- PANEL KIRI -->
 					<!-- Kita akan masukkan Aktiviti Terkini dan Statistik Kategori pada langkah seterusnya -->
+					<div class="leftPanel">
+						<div style="
+							background:white;
+							border-radius:10px;
+							padding:20px;
+							box-shadow:0 3px 10px rgba(0,0,0,.1);
+						">
+							<h3>Aktiviti Terkini</h3>
+							Akan dipindahkan ke sini.
+						</div>
 
+						<div style="
+							background:white;
+							border-radius:10px;
+							padding:20px;
+							box-shadow:0 3px 10px rgba(0,0,0,.1);
+						">
+							<h3>Statistik Mengikut Kategori</h3>
+							Akan dipindahkan ke sini.
+						</div>
+					</div>
 				</div>
 				<div class="rightPanel">
 					<!-- Tampal semula bahagian Search + Jadual di sini -->
