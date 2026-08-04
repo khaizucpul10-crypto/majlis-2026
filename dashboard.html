@@ -673,16 +673,29 @@
 
 				hadir.forEach(function(p){
 					html += `
-						<div class="activityItem">
 
-							<div class="activityTime">
-								${p.tarikh} ${p.masa}
-							</div>
-
-							<div class="activityName">
-								${p.nama}
-							</div>
+					<div class="activityItem">
+						<div class="activityTime">
+							🟢 ${p.masa}
 						</div>
+
+						<div class="activityName">
+							${p.nama}
+						</div>
+
+						<div class="activityJawatan">
+							${p.jawatan}
+						</div>
+
+						<div class="activityKategori">
+							${p.gred}
+						</div>
+
+						<div class="activitySeat">
+							🪑 Meja <b>${p.meja}</b> |
+							Kerusi <b>${p.kerusi}</b>
+						</div>
+					</div>
 					`;
 				});
 			}
