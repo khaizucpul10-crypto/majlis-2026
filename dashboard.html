@@ -246,6 +246,34 @@
 			box-shadow:0 2px 6px rgba(0,0,0,.08);
 			transition:.3s;
 		}
+		
+		.activityLatest{
+			background:linear-gradient(
+				135deg,
+				#fff7cc,
+				#ffe082
+			);
+
+			border-left:6px solid #f59e0b;
+			animation:latestPulse 1s infinite;
+		}
+		
+		@keyframes latestPulse{
+			0%{
+				transform:scale(1);
+				box-shadow:0 0 0 rgba(245,158,11,.5);
+			}
+
+			50%{
+				transform:scale(1.03);
+				box-shadow:0 0 20px rgba(245,158,11,.7);
+			}
+
+			100%{
+				transform:scale(1);
+				box-shadow:0 0 0 rgba(245,158,11,.5);
+			}
+		}
 
 		.activityItem:hover{
 			transform:translateY(-2px);
@@ -674,7 +702,11 @@
 				hadir.forEach(function(p){
 					html += `
 
-					<div class="activityItem">
+					<div class="activityItem ${
+						pesertaHighlight === p.ic
+							? 'activityLatest'
+							: ''
+					}">
 						<div class="activityTime">
 							🟢 ${p.masa}
 						</div>
