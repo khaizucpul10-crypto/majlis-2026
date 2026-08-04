@@ -611,17 +611,26 @@
 		}
 		
 		function paparAktiviti(){
-
 			let html = "";
 
 			const hadir = semuaPeserta
 				.filter(p => p.status === "HADIR")
 				.sort(function(a,b){
 
-					if(a.tarikh === b.tarikh){
-						return b.masa.localeCompare(a.masa);
-					}
-					return b.tarikh.localeCompare(a.tarikh);
+					const aDate = new Date(
+						(a.tarikh || "").split("/").reverse().join("-") +
+						"T" +
+						(a.masa || "00:00:00")
+					);
+
+					const bDate = new Date(
+						(b.tarikh || "").split("/").reverse().join("-") +
+						"T" +
+						(b.masa || "00:00:00")
+					);
+
+					return bDate - aDate;
+
 				})
 				.slice(0,10);
 
@@ -631,20 +640,20 @@
 
 				hadir.forEach(function(p){
 					html += `
-					<div class="activityItem">
+						<div class="activityItem">
 
-						<div class="activityTime">
-							${p.tarikh} ${p.masa}
+							<div class="activityTime">
+								${p.tarikh} ${p.masa}
+							</div>
+
+							<div class="activityName">
+								${p.nama}
+							</div>
 						</div>
-
-						<div class="activityName">
-							${p.nama}
-						</div>
-
-					</div>
 					`;
 				});
 			}
+			document.getElementById("activityList").innerHTML = html;
 			document.getElementById("activityList").innerHTML = html;
 		}
 
