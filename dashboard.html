@@ -497,6 +497,7 @@
 				+new Date().toLocaleTimeString("ms-MY");
 
 				paparJadual();
+				paparAktiviti();
 				
 				if (pesertaHighlight) {
 					const row = document.querySelector(".baruHadir");
@@ -607,6 +608,44 @@
 			document.getElementById("senarai").innerHTML=html;
 			document.getElementById("bilRekod").innerHTML =
 			"Jumlah rekod dipaparkan : " + (bil-1);
+		}
+		
+		function paparAktiviti(){
+
+			let html = "";
+
+			const hadir = semuaPeserta
+				.filter(p => p.status === "HADIR")
+				.sort(function(a,b){
+
+					if(a.tarikh === b.tarikh){
+						return b.masa.localeCompare(a.masa);
+					}
+					return b.tarikh.localeCompare(a.tarikh);
+				})
+				.slice(0,10);
+
+			if(hadir.length===0){
+				html = "Tiada aktiviti.";
+			}else{
+
+				hadir.forEach(function(p){
+					html += `
+					<div class="activityItem">
+
+						<div class="activityTime">
+							${p.tarikh} ${p.masa}
+						</div>
+
+						<div class="activityName">
+							${p.nama}
+						</div>
+
+					</div>
+					`;
+				});
+			}
+			document.getElementById("activityList").innerHTML = html;
 		}
 
 		loadDashboard();
