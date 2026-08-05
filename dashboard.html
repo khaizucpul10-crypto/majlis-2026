@@ -12,7 +12,7 @@
 	<style>
 		body{
 			margin:0;
-			font-family:Segoe UI;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 			background:#f4f6fb;
 			}
 
@@ -23,6 +23,7 @@
 			text-align:center;
 			font-size:24px;
 			font-weight:bold;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 		}
 
 		@media (max-width:768px){
@@ -73,12 +74,14 @@
 			margin:0;
 			color:white;
 			font-size:14px;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 			}
 
 		.card h1{
 				margin-top:8px;
 				color:white;
 				font-size:22px;
+				font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 			}
 
 		.card{
@@ -121,6 +124,7 @@
 			white-space:nowrap;
 			overflow:hidden;
 			text-overflow:ellipsis;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 		}
 
 		.hadir{
@@ -130,6 +134,7 @@
 			background:#dcfce7;
 			color:#166534;
 			font-weight:bold;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 		}
 
 		.belum{
@@ -139,6 +144,7 @@
 			background:#fee2e2;
 			color:#991b1b;
 			font-weight:bold;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 		}
 
 		.footer{
@@ -154,7 +160,6 @@
 		}
 
 		@keyframes blinkRow{
-
 			0%{
 				background:#bbf7d0;
 			}
@@ -166,7 +171,6 @@
 			100%{
 				background:#bbf7d0;
 			}
-
 		}
 
 		thead{
@@ -245,6 +249,7 @@
 			margin-top:12px;
 			text-align:center;
 			font-weight:bold;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 			}
 		}
 		
@@ -308,12 +313,14 @@
 			color:#16a34a;
 			font-size:14px;
 			font-weight:bold;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 		}
 
 		.activityJawatan{
 			color:#666;
 			font-size:13px;
 			margin-top:4px;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 		}
 
 		.activityKategori{
@@ -325,17 +332,20 @@
 			color:white;
 			font-size:12px;
 			font-weight:bold;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 		}
 
 		.activitySeat{
 			margin-top:8px;
 			color:#444;
 			font-size:13px;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 		}
 		
 		.activityName{
 			font-size:15px;
 			margin-top:3px;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 		}
 		
 		.categoryBox{
@@ -374,6 +384,7 @@
 			margin-top:5px;
 			font-size:13px;
 			color:#666;
+			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 		}
 		
 		th{
@@ -400,14 +411,10 @@
 		.cardPop{animation:cardPop .5s;	}
 
 		@keyframes cardPop{
-
 			0%{	transform:scale(.95); box-shadow:0 0 0 rgba(0,0,0,.1);	}
-
 			50%{transform:scale(1.05); box-shadow:0 10px 30px rgba(37,99,235,.35);	}
-
 			100%{transform:scale(1);	}
-
-			}
+		}
 		
 		#liveNotification{
 				animation:slideIn .4s;
@@ -427,7 +434,7 @@
 			<div id="liveClock"
 				style="
 				margin-top:10px;
-				font-size:12px;
+				font-size:10px;
 				font-weight:bold;
 				color:white;
 				line-height:1.0;">
@@ -511,18 +518,15 @@
 					0 / 0 Peserta (0%)
 				</div>
 			</div>
-		</div>	
+		</div><br>
 		<div class="dashboardLayout">
 			<div class="leftPanel">
 				<!-- PANEL KIRI -->
 				<!-- Kita akan masukkan Aktiviti Terkini dan Statistik Kategori pada langkah seterusnya -->
 				
 				<div class="activityBox">
-
-				<h3>Aktiviti Terkini</h3>
-
-				<div id="activityList"></div>
-
+					<h3>Aktiviti Terkini</h3>
+					<div id="activityList"></div>
 				</div>
 				<div class="categoryBox">
 					<h3>Statistik Mengikut Kategori</h3>
