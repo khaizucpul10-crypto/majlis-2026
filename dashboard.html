@@ -548,11 +548,29 @@
 						Kemaskini terakhir : -
 					</div>
 
-					<input
-					type="text"
-					id="carian"
-					placeholder="Cari Nama atau No KP..."
-					onkeyup="currentPage=1;paparJadual()">
+					<div style="display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;">
+
+						<div style="flex:1;">
+							<input
+								type="text"
+								id="carian"
+								placeholder="Cari Nama atau No KP..."
+								style="width:100%;"
+								onkeyup="currentPage=1;paparJadual()">
+						</div>
+
+						<div>
+							Papar
+							<select id="rowsPerPage" onchange="ubahRows()">
+								<option value="10">10</option>
+								<option value="20" selected>20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							rekod
+						</div>
+
+					</div>
 
 				</div><br>
 				<div id="bilRekod"></div>
@@ -605,7 +623,7 @@
 		
 		// Pagination
 		let currentPage = 1;
-		const rowsPerPage = 10;
+		const rowsPerPage = 20;
 
 		async function loadDashboard(){
 			try{
