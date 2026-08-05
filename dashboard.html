@@ -431,7 +431,32 @@
 				from{transform:translateX(120%);	}
 				to{	transform:translateX(0);	}
 			}
-			
+		
+		#pagination button{
+			padding:8px 14px;
+			border:1px solid #d1d5db;
+			background:white;
+			cursor:pointer;
+			border-radius:8px;
+			transition:.3s;
+			font-weight:bold;
+		}
+
+		#pagination button:hover{
+			background:#2563eb;
+			color:white;
+		}
+
+		#pagination button.activePage{
+			background:#2563eb;
+			color:white;
+			border-color:#2563eb;
+		}
+
+		#pagination button:disabled{
+			opacity:.4;
+			cursor:not-allowed;
+		}
 	</style>
 </head>
 
@@ -613,11 +638,6 @@
 							<tbody id="senarai">
 							</tbody>
 						</table>
-						<div id="pagination"
-							 style="
-								margin-top:15px;
-								text-align:center;">
-						</div>
 					</div>
 				</div>
 			</div>
@@ -972,17 +992,8 @@
 					html += `
 
 					<button
-						onclick="goPage(${i})"
-
-						style="
-						margin:3px;
-						padding:8px 12px;
-						border-radius:6px;
-						border:1px solid #ccc;
-						cursor:pointer;
-						background:	${i==currentPage?'#2563eb':'white'};
-						color:	${i==currentPage?'white':'black'};">
-						${i}
+					onclick="goPage(${i})"
+					class="${i==currentPage?'activePage':''}">
 					</button>
 
 					`;
