@@ -605,6 +605,13 @@
 
 				</div><br>
 				<div id="bilRekod"></div>
+				<div id="pageInfo"
+					 style="
+						text-align:right;
+						margin-top:5px;
+						color:#666;
+						font-size:13px;">
+				</div>
 				<div id="pagination"
 					style="
 					margin-top:15px;
@@ -852,6 +859,12 @@
 
 			buatPagination(totalData);
 
+			document.getElementById("pageInfo").innerHTML=
+			"Halaman "+
+			currentPage+
+			" daripada "+
+			(totalPages==0?1:totalPages);
+
 			if(totalData==0){
 
 				document.getElementById("bilRekod").innerHTML =
@@ -972,51 +985,84 @@
 		}
 
 		function buatPagination(totalData){
-
 			const totalPages = Math.ceil(totalData / rowsPerPage);
-			let html = "";
 
-			html += `
+			let html="";
 
-			<button onclick="prevPage()"
-				${currentPage==1?'disabled':''}>
-				◀
+			if(totalPages<=1){
+				document.getElementById("pagination").innerHTML="";
+				return;
+			}
+
+			// First
+			html+=`
+			<button onclick="goPage(1)"
+				${currentPage==1?"disabled":""}>
+				⏮
 			</button>
-
 			`;
 
-			for(let i=1;i<=totalPages;i++){
-				if(
-					i==1 ||	i==totalPages || Math.abs(i-currentPage)<=2
-				){
-					html += `
+			// Previous
+			html+=`
+			<button onclick="prevPage()"
+				${currentPage==1?"disabled":""}>
+				◀
+			</button>
+			`;
 
-					<button
-					onclick="goPage(${i})"
-					class="${i==currentPage?'activePage':''}">
-					</button>
+			let start=Math.max(1,currentPage-2);
+			let end=Math.min(totalPages,currentPage+2);
 
-					`;
-				}
+			if(start>1){
+				html+=`
+				<button onclick="goPage(1)">1</button>
+				`;
 
-				else if(
-					i==currentPage-3 ||	i==currentPage+3
-				){
-					html += "... ";
+				if(start>2){
+					html+="...";
 				}
 			}
 
-			html += `
+			for(let i=start;i<=end;i++){
 
-			<button
-				onclick="nextPage(${totalPages})"
-				${currentPage==totalPages?'disabled':''}>
+				html+=`
+				<button
+					onclick="goPage(${i})"
+					class="${i==currentPage?'activePage':''}">
+					${i}
+				</button>
+				`;
+			}
+
+			if(end<totalPages){
+				if(end<totalPages-1){
+					html+="...";
+				}
+
+				html+=`
+				<button onclick="goPage(${totalPages})">
+					${totalPages}
+				</button>
+				`;
+			}
+
+			// Next
+			html+=`
+			<button onclick="nextPage(${totalPages})"
+				${currentPage==totalPages?"disabled":""}>
 				▶
 			</button>
-
 			`;
 
-			document.getElementById("pagination").innerHTML = html;
+			// Last
+			html+=`
+			<button onclick="goPage(${totalPages})"
+				${currentPage==totalPages?"disabled":""}>
+				⏭
+			</button>
+			`;
+
+			document.getElementById("pagination").innerHTML=html;
 		}
 		
 		function goPage(page){
