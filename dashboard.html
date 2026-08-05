@@ -548,10 +548,10 @@
 					</div>
 
 					<input
-						type="text"
-						id="carian"
-						placeholder="Cari Nama atau No KP..."
-						onkeyup="paparJadual()">
+					type="text"
+					id="carian"
+					placeholder="Cari Nama atau No KP..."
+					onkeyup="currentPage=1;paparJadual()">
 
 				</div><br>
 				<div id="bilRekod"></div>
@@ -580,6 +580,11 @@
 							<tbody id="senarai">
 							</tbody>
 						</table>
+						<div id="pagination"
+							 style="
+								margin-top:15px;
+								text-align:center;">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -598,6 +603,10 @@
 		let semuaPeserta=[];		
 		let pesertaLama = {};
 		let pesertaHighlight = "";
+		
+		// Pagination
+		let currentPage = 1;
+		const rowsPerPage = 10;
 
 		async function loadDashboard(){
 			try{
@@ -744,56 +753,70 @@
 
 		function paparJadual(){
 
-			let keyword=document
-			.getElementById("carian")
-			.value
-			.toLowerCase();
+			let keyword = document
+				.getElementById("carian")
+				.value
+				.toLowerCase();
 
-			let html="";
+			const dataFilter = semuaPeserta.filter(function(p){
 
-			let bil=1;
+				return (
+					(p.nama || "")
+					.toLowerCase()
+					.includes(keyword)
 
-			semuaPeserta.forEach(function(p){
-				if(
-					(p.nama || "").toLowerCase().includes(keyword)
 					||
-					String(p.ic || "").includes(keyword)
-				){
-					html += `
 
-					<tr class="${
-						pesertaHighlight === p.ic
-							? 'baruHadir'
-							: ''
-					}">
-
-					<td>${bil++}</td>
-
-					<td>${p.nama}</td>
-
-					<td>${p.ic}</td>
-
-					<td>${p.tempat}</td>
-
-					<td>${p.meja}</td>
-
-					<td>${p.kerusi}</td>
-
-					<td class="${p.status=="HADIR"?"hadir":"belum"}">
-					${p.status}
-					</td>
-
-					<td>${p.masa}</td>
-
-					</tr>
-
-					`;
-				}
+					String(p.ic || "")
+					.includes(keyword)
+				);
 
 			});
 
-			document.getElementById("senarai").innerHTML=html;
-			document.getElementById("bilRekod").innerHTML = `Memaparkan ${bil-1} daripada ${semuaPeserta.length} peserta`;
+			const start = (currentPage-1) * rowsPerPage;
+			const end = start + rowsPerPage;
+			const dataPage = dataFilter.slice(start,end);
+
+			let html="";
+			let bil = start + 1;
+
+			dataPage.forEach(function(p){
+				html += `
+
+				<tr class="${pesertaHighlight===p.ic?'baruHadir':''}">
+
+					<td>${bil++}</td>
+					<td>${p.nama}</td>
+					<td>${p.ic}</td>
+					<td>${p.tempat}</td>
+					<td>${p.meja}</td>
+					<td>${p.kerusi}</td>
+					<td class="${p.status=="HADIR"?"hadir":"belum"}">
+						${p.status}
+					</td>
+					<td>${p.masa}</td>
+				</tr>
+				`;
+			});
+
+			document.getElementById("senarai").innerHTML = html;
+			buatPagination(dataFilter.length);
+			document.getElementById("bilRekod").innerHTML =
+
+			`Memaparkan
+
+			${start+1}
+
+			-
+
+			${Math.min(end,dataFilter.length)}
+
+			daripada
+
+			${dataFilter.length}
+
+			peserta`;
+
 		}
 		
 		function paparAktiviti(){
@@ -913,6 +936,132 @@
 			document.getElementById("categoryStats").innerHTML = html;
 		}
 
+		function buatPagination(totalData){
+
+			const totalPages = Math.ceil(totalData / rowsPerPage);
+			let html = "";
+
+			html += `
+
+			<button onclick="prevPage()"
+
+			${currentPage==1?'disabled':''}>
+
+			◀
+
+			</button>
+
+			`;
+
+			for(let i=1;i<=totalPages;i++){
+
+				if(
+
+					i==1 ||
+
+					i==totalPages ||
+
+					Math.abs(i-currentPage)<=2
+
+				){
+
+					html += `
+
+					<button
+
+					onclick="goPage(${i})"
+
+					style="
+
+					margin:3px;
+
+					padding:8px 12px;
+
+					border-radius:6px;
+
+					border:1px solid #ccc;
+
+					cursor:pointer;
+
+					background:
+
+					${i==currentPage?'#2563eb':'white'};
+
+					color:
+
+					${i==currentPage?'white':'black'};">
+
+					${i}
+
+					</button>
+
+					`;
+
+				}
+
+				else if(
+
+					i==currentPage-3 ||
+
+					i==currentPage+3
+
+				){
+
+					html += "... ";
+
+				}
+
+			}
+
+			html += `
+
+			<button
+
+			onclick="nextPage(${totalPages})"
+
+			${currentPage==totalPages?'disabled':''}>
+
+			▶
+
+			</button>
+
+			`;
+
+			document.getElementById("pagination").innerHTML = html;
+
+		}
+		
+		function goPage(page){
+
+			currentPage = page;
+
+			paparJadual();
+
+		}
+
+		function prevPage(){
+
+			if(currentPage>1){
+
+				currentPage--;
+
+				paparJadual();
+
+			}
+
+		}
+
+		function nextPage(totalPages){
+
+			if(currentPage<totalPages){
+
+				currentPage++;
+
+				paparJadual();
+
+			}
+
+		}
 		
 		updateClock();
 		setInterval(updateClock,1000);
