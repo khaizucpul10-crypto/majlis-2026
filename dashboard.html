@@ -39,6 +39,7 @@
 
 		.container{
 			width:99%;
+			max-width:1900px;
 			margin:auto;
 		}
 			
@@ -188,9 +189,9 @@
 			background:white;
 			border-radius:10px;
 			box-shadow:0 3px 10px rgba(0,0,0,.1);
-			max-height:650px;
-			min-height:650px;
-			overflow:auto;
+			max-height:550px;
+			overflow-y:auto;
+			overflow-x:hidden;
 		}
 			
 		.popNumber{
@@ -198,17 +199,9 @@
 		}
 
 		@keyframes popNumber{
-			0%{
-				transform:scale(1);
-			}
-
-			40%{
-				transform:scale(1.35);
-			}
-
-			100%{
-				transform:scale(1);
-			}
+			0%{	transform:scale(1);	}
+			40%{transform:scale(1.35);	}
+			100%{transform:scale(1);	}
 		}
 		
 		.progressBox{
@@ -623,7 +616,7 @@
 				<div
 					style="
 					display:grid;
-					grid-template-columns:3fr 1fr;
+					grid-template-columns:1fr;
 					gap:20px;
 					margin-top:15px;">			
 
@@ -631,14 +624,14 @@
 						<table align="center">
 							<thead>
 								<tr>
-								<th>Bil</th>
-								<th>Nama</th>
-								<th>No KP</th>
-								<th>Tempat</th>
-								<th>Meja</th>
-								<th>Kerusi</th>
-								<th>Status</th>
-								<th>Masa</th>
+								<th style="width:60px;">Bil</th>
+								<th style="width:300px;">Nama</th>
+								<th style="width:170px;">No KP</th>
+								<th style="width:250px;">Tempat</th>
+								<th style="width:80px;">Meja</th>
+								<th style="width:80px;">Kerusi</th>
+								<th style="width:120px;">Status</th>
+								<th style="width:140px;">Masa</th>
 								</tr>
 							</thead>
 							<tbody id="senarai">
