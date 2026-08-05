@@ -778,29 +778,18 @@
 
 		function paparJadual(){
 
-			let keyword = document
+			const keyword = document
 				.getElementById("carian")
 				.value
 				.toLowerCase();
 
 			const dataFilter = semuaPeserta.filter(function(p){
 				return (
-					if(
-						(p.nama || "").toLowerCase().includes(keyword)
-						||
-						String(p.ic || "").includes(keyword)
-					){
-						dataFilter.push(p);
-					}
+					(p.nama || "").toLowerCase().includes(keyword) ||
+					String(p.ic || "").includes(keyword)
 				);
 			});
 
-			const start = (currentPage-1) * rowsPerPage;
-			const end = start + rowsPerPage;
-			const dataPage = dataFilter.slice(start,end);
-
-			let html="";
-			const dataFilter = [];
 			const totalData = dataFilter.length;
 
 			const totalPages = Math.ceil(totalData / rowsPerPage);
@@ -810,19 +799,17 @@
 			}
 
 			const start = (currentPage - 1) * rowsPerPage;
-
 			const end = start + rowsPerPage;
 
-			const dataPage = dataFilter.slice(start, end);
+			const dataPage = dataFilter.slice(start,end);
 
 			let html = "";
 
 			let bil = start + 1;
-			let bil = 1;
 
 			dataPage.forEach(function(p){
-				html += `
 
+				html += `
 				<tr class="${pesertaHighlight===p.ic?'baruHadir':''}">
 					<td>${bil++}</td>
 					<td>${p.nama}</td>
@@ -830,18 +817,32 @@
 					<td>${p.tempat}</td>
 					<td>${p.meja}</td>
 					<td>${p.kerusi}</td>
-					<td class="${p.status=="HADIR"?"hadir":"belum"}">
-						${p.status}
+					<td>
+						<span class="${p.status=="HADIR"?"hadir":"belum"}">
+							${p.status}
+						</span>
 					</td>
 					<td>${p.masa}</td>
 				</tr>
 				`;
+
 			});
 
 			document.getElementById("senarai").innerHTML = html;
-			buatPagination(dataFilter.length);
-			document.getElementById("bilRekod").innerHTML =
+
+			buatPagination(totalData);
+
+			if(totalData==0){
+
+				document.getElementById("bilRekod").innerHTML =
+				"Tiada rekod dijumpai";
+
+			}else{
+
+				document.getElementById("bilRekod").innerHTML =
 				`Memaparkan ${start+1} hingga ${Math.min(end,totalData)} daripada ${totalData} peserta`;
+
+			}
 
 		}
 		
