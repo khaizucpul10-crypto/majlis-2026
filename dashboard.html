@@ -580,6 +580,14 @@
 
 				</div><br>
 				<div id="bilRekod"></div>
+				<div id="pagination"
+					style="
+					margin-top:15px;
+					display:flex;
+					justify-content:center;
+					gap:6px;
+					flex-wrap:wrap;">
+				</div>
 
 				<div
 					style="
@@ -629,7 +637,7 @@
 		
 		// Pagination
 		let currentPage = 1;
-		const rowsPerPage = 20;
+		let rowsPerPage = 20;
 
 		async function loadDashboard(){
 			try{
@@ -777,11 +785,13 @@
 
 			const dataFilter = semuaPeserta.filter(function(p){
 				return (
-					(p.nama || "").toLowerCase().includes(keyword)
-
-					||
-
-					String(p.ic || "").includes(keyword)
+					if(
+						(p.nama || "").toLowerCase().includes(keyword)
+						||
+						String(p.ic || "").includes(keyword)
+					){
+						dataFilter.push(p);
+					}
 				);
 			});
 
@@ -790,7 +800,25 @@
 			const dataPage = dataFilter.slice(start,end);
 
 			let html="";
+			const dataFilter = [];
+			const totalData = dataFilter.length;
+
+			const totalPages = Math.ceil(totalData / rowsPerPage);
+
+			if(currentPage > totalPages && totalPages > 0){
+				currentPage = totalPages;
+			}
+
+			const start = (currentPage - 1) * rowsPerPage;
+
+			const end = start + rowsPerPage;
+
+			const dataPage = dataFilter.slice(start, end);
+
+			let html = "";
+
 			let bil = start + 1;
+			let bil = 1;
 
 			dataPage.forEach(function(p){
 				html += `
@@ -813,20 +841,7 @@
 			document.getElementById("senarai").innerHTML = html;
 			buatPagination(dataFilter.length);
 			document.getElementById("bilRekod").innerHTML =
-
-			`Memaparkan
-
-			${start+1}
-
-			-
-
-			${Math.min(end,dataFilter.length)}
-
-			daripada
-
-			${dataFilter.length}
-
-			peserta`;
+				`Memaparkan ${start+1} hingga ${Math.min(end,totalData)} daripada ${totalData} peserta`;
 
 		}
 		
@@ -1009,6 +1024,14 @@
 				currentPage++;
 				paparJadual();
 			}
+		}
+		function ubahRows(){
+			rowsPerPage = parseInt(
+				document.getElementById("rowsPerPage").value
+			);
+
+			currentPage = 1;
+			paparJadual();
 		}
 		
 		updateClock();
