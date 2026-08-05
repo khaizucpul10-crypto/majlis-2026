@@ -660,7 +660,6 @@
 						pesertaBaru = p;
 						pesertaHighlight = p.ic;
 					}
-
 				});
 				
 				if(pesertaBaru){
@@ -670,7 +669,6 @@
 				}
 
 				semuaPeserta.sort(function(a,b){
-
 					if(a.status==b.status){
 						return (a.nama ?? "")
 						.localeCompare(
@@ -681,9 +679,7 @@
 						numeric:true
 						});
 					}
-
 					return a.status=="HADIR" ? -1 : 1;
-
 				});
 
 				document.getElementById("lastUpdate").innerHTML=
@@ -743,9 +739,7 @@
 			}
 
 			catch(err){
-
 				console.error(err);
-
 				document.getElementById("lastUpdate").innerHTML =
 				"❌ Sambungan ke server gagal";
 			}
@@ -759,18 +753,13 @@
 				.toLowerCase();
 
 			const dataFilter = semuaPeserta.filter(function(p){
-
 				return (
-					(p.nama || "")
-					.toLowerCase()
-					.includes(keyword)
+					(p.nama || "").toLowerCase().includes(keyword)
 
 					||
 
-					String(p.ic || "")
-					.includes(keyword)
+					String(p.ic || "").includes(keyword)
 				);
-
 			});
 
 			const start = (currentPage-1) * rowsPerPage;
@@ -784,7 +773,6 @@
 				html += `
 
 				<tr class="${pesertaHighlight===p.ic?'baruHadir':''}">
-
 					<td>${bil++}</td>
 					<td>${p.nama}</td>
 					<td>${p.ic}</td>
@@ -839,7 +827,6 @@
 					);
 
 					return bDate - aDate;
-
 				})
 				.slice(0,10);
 
@@ -855,21 +842,10 @@
 							? 'activityLatest'
 							: ''
 					}">
-						<div class="activityTime">
-							🟢 ${p.masa}
-						</div>
-
-						<div class="activityName">
-							${p.nama}
-						</div>
-
-						<div class="activityJawatan">
-							${p.jawatan}
-						</div>
-
-						<div class="activityKategori">
-							${p.gred}
-						</div>
+						<div class="activityTime">	🟢 ${p.masa}	</div>
+						<div class="activityName">		${p.nama}		</div>
+						<div class="activityJawatan">	${p.jawatan}	</div>
+						<div class="activityKategori">	${p.gred}	</div>
 
 						<div class="activitySeat">
 							🪑 Meja <b>${p.meja}</b> |
@@ -944,123 +920,72 @@
 			html += `
 
 			<button onclick="prevPage()"
-
-			${currentPage==1?'disabled':''}>
-
-			◀
-
+				${currentPage==1?'disabled':''}>
+				◀
 			</button>
 
 			`;
 
 			for(let i=1;i<=totalPages;i++){
-
 				if(
-
-					i==1 ||
-
-					i==totalPages ||
-
-					Math.abs(i-currentPage)<=2
-
+					i==1 ||	i==totalPages || Math.abs(i-currentPage)<=2
 				){
-
 					html += `
 
 					<button
+						onclick="goPage(${i})"
 
-					onclick="goPage(${i})"
-
-					style="
-
-					margin:3px;
-
-					padding:8px 12px;
-
-					border-radius:6px;
-
-					border:1px solid #ccc;
-
-					cursor:pointer;
-
-					background:
-
-					${i==currentPage?'#2563eb':'white'};
-
-					color:
-
-					${i==currentPage?'white':'black'};">
-
-					${i}
-
+						style="
+						margin:3px;
+						padding:8px 12px;
+						border-radius:6px;
+						border:1px solid #ccc;
+						cursor:pointer;
+						background:	${i==currentPage?'#2563eb':'white'};
+						color:	${i==currentPage?'white':'black'};">
+						${i}
 					</button>
 
 					`;
-
 				}
 
 				else if(
-
-					i==currentPage-3 ||
-
-					i==currentPage+3
-
+					i==currentPage-3 ||	i==currentPage+3
 				){
-
 					html += "... ";
-
 				}
-
 			}
 
 			html += `
 
 			<button
-
-			onclick="nextPage(${totalPages})"
-
-			${currentPage==totalPages?'disabled':''}>
-
-			▶
-
+				onclick="nextPage(${totalPages})"
+				${currentPage==totalPages?'disabled':''}>
+				▶
 			</button>
 
 			`;
 
 			document.getElementById("pagination").innerHTML = html;
-
 		}
 		
 		function goPage(page){
-
 			currentPage = page;
-
 			paparJadual();
-
 		}
 
 		function prevPage(){
-
 			if(currentPage>1){
-
 				currentPage--;
-
 				paparJadual();
-
 			}
-
 		}
 
 		function nextPage(totalPages){
-
 			if(currentPage<totalPages){
-
 				currentPage++;
-
 				paparJadual();
-
 			}
-
 		}
 		
 		updateClock();
@@ -1069,7 +994,6 @@
 		autoRefresh();
 		
 		async function autoRefresh(){
-
 			try{
 				await loadDashboard();
 			}
@@ -1094,7 +1018,6 @@
 			audio.play().catch(function(err){
 				console.log("Audio tidak dapat dimainkan.", err);
 			});
-
 		}
 		
 		function animateCard(id){
