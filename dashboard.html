@@ -423,14 +423,24 @@
 				to{	transform:translateX(0);	}
 			}
 		
+		#pagination{
+			display:flex;
+			justify-content:flex-end;
+			align-items:center;
+			gap:3px;
+		}
+
 		#pagination button{
-			padding:8px 14px;
+			min-width:30px;
+			height:30px;
+			padding:0 8px;
 			border:1px solid #d1d5db;
 			background:white;
+			border-radius:5px;
 			cursor:pointer;
-			border-radius:8px;
-			transition:.3s;
-			font-weight:bold;
+			transition:.2s;
+			font-size:12px;
+			font-weight:600;
 		}
 
 		#pagination button:hover{
@@ -444,6 +454,11 @@
 			border-color:#2563eb;
 		}
 
+		#pagination button:disabled{
+			opacity:.4;
+			cursor:not-allowed;
+		}
+		
 		#pagination button:disabled{
 			opacity:.4;
 			cursor:not-allowed;
@@ -595,21 +610,25 @@
 					</div>
 
 				</div><br>
-				<div id="bilRekod"></div>
-				<div id="pageInfo"
-					 style="
-						text-align:right;
-						margin-top:5px;
-						color:#666;
-						font-size:13px;">
+				<div id="bilRekod"
+					style="font-size:13px;color:#666;">
 				</div>
-				<div id="pagination"
-					style="
-					margin-top:15px;
-					display:flex;
-					justify-content:center;
-					gap:6px;
-					flex-wrap:wrap;">
+				<div style="display:flex;align-items:center;gap:15px;">
+					<div id="pageInfo"
+						 style="font-size:13px;color:#666;">
+					</div>
+
+					<!--div id="pagination"></div-->
+					<div id="pagination"
+						style="
+						margin-top:10px;
+						display:flex;
+						justify-content:flex-end;
+						align-items:center;
+						gap:4px;
+						flex-wrap:wrap;
+						font-size:12px;">
+					</div>
 				</div>
 
 				<div
@@ -851,11 +870,12 @@
 
 			buatPagination(totalData);
 
-			document.getElementById("pageInfo").innerHTML=
-			"Halaman "+
-			currentPage+
-			" daripada "+
-			(totalPages==0?1:totalPages);
+			document.getElementById("pageInfo").innerHTML =
+			"<span style='font-size:12px'>Halaman " +
+			currentPage +
+			" / " +
+			(totalPages==0?1:totalPages) +
+			"</span>";
 
 			if(totalData==0){
 
@@ -990,7 +1010,7 @@
 			html+=`
 			<button onclick="goPage(1)"
 				${currentPage==1?"disabled":""}>
-				⏮
+				«
 			</button>
 			`;
 
@@ -1050,7 +1070,7 @@
 			html+=`
 			<button onclick="goPage(${totalPages})"
 				${currentPage==totalPages?"disabled":""}>
-				⏭
+				»
 			</button>
 			`;
 
