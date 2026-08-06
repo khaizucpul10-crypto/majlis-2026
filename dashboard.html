@@ -800,6 +800,7 @@
 					"%)";
 				
 				semuaPeserta = data.peserta || [];
+				console.log(semuaPeserta);
 
 				let pesertaBaru = null;
 
@@ -910,11 +911,25 @@
 				.toLowerCase();
 
 			const dataFilter = semuaPeserta.filter(function(p){
+
+				const nama = (p.nama || "").toLowerCase();
+				const ic = String(p.ic || "").toLowerCase();
+				const status = String(p.status || "").toLowerCase();
+				const tempat = (p.tempat || "").toLowerCase();
+				const gred = (p.gred || "").toLowerCase();
+				const meja = String(p.meja || "").toLowerCase();
+				const kerusi = String(p.kerusi || "").toLowerCase();
+
 				return (
-					(p.nama || "").toLowerCase().includes(keyword) ||
-					String(p.ic || "").toLowerCase().includes(keyword) ||
-					(p.status || "").toLowerCase().includes(keyword)
+					nama.includes(keyword) ||
+					ic.includes(keyword) ||
+					status.includes(keyword) ||
+					tempat.includes(keyword) ||
+					gred.includes(keyword) ||
+					meja.includes(keyword) ||
+					kerusi.includes(keyword)
 				);
+
 			});
 
 			const totalData = dataFilter.length;
