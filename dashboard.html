@@ -167,17 +167,9 @@
 		}
 
 		@keyframes blinkRow{
-			0%{
-				background:#bbf7d0;
-			}
-
-			50%{
-				background:#ffffff;
-			}
-
-			100%{
-				background:#bbf7d0;
-			}
+			0%{	background:#bbf7d0;	}
+			50%{	background:#ffffff;	}
+			100%{	background:#bbf7d0;	}
 		}
 
 		thead{
@@ -245,7 +237,7 @@
 
 		@media(max-width:768px){
 			.progressText{
-			font-size:8px;
+			font-size:7px;
 			color:white;
 			margin-top:10px;
 			text-align:center;
@@ -267,8 +259,7 @@
 
 		.activityBox h3{
 			margin-top:0;
-			color:#1e3a8a;
-			
+			color:#1e3a8a;			
 		}
 
 		.activityItem{
@@ -636,6 +627,7 @@
 								<th style="width:300px;">Nama</th>
 								<th style="width:170px; text-align:center;">No KP</th>
 								<th style="width:250px;">Tempat</th>
+								<th style="width:250px;">Jemputan</th>
 								<th style="width:80px; text-align:center;">Meja</th>
 								<th style="width:80px; text-align:center;">Kerusi</th>
 								<th style="width:120px; text-align:center;">Status</th>
@@ -689,8 +681,7 @@
 				document.getElementById("peratus").textContent = data.peratus+"%";
 				
 				// Update Progress Bar
-				document.getElementById("progressFill").style.width =
-					data.peratus + "%";
+				document.getElementById("progressFill").style.width = data.peratus + "%";
 
 				document.getElementById("progressText").textContent =
 					data.hadir +
@@ -842,6 +833,7 @@
 					<td>${p.nama}</td>
 					<td>${p.ic}</td>
 					<td>${p.tempat}</td>
+					<td style="text-align:center">${p.gred || "-"}</td>
 					<td>${p.meja}</td>
 					<td>${p.kerusi}</td>
 					<td>
