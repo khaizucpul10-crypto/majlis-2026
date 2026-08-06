@@ -32,9 +32,7 @@
 				gap:15px;
 			}
 
-			.dashboardLayout{
-				grid-template-columns:1fr;
-			}
+			.dashboardLayout{ grid-template-columns:1fr;	}
 		}
 
 		.container{
@@ -563,11 +561,11 @@
 				<!-- Kita akan masukkan Aktiviti Terkini dan Statistik Kategori pada langkah seterusnya -->
 				
 				<div class="activityBox">
-					<h3>Aktiviti Terkini</h3>
+					<h3 align="center">Aktiviti Terkini</h3>
 					<div id="activityList"></div>
 				</div>
 				<div class="categoryBox">
-					<h4>Statistik Mengikut Kategori</h4>
+					<h4 align="center">Statistik Mengikut Kategori</h4>
 					<div id="categoryStats">
 						Memuatkan...
 					</div>
@@ -586,7 +584,6 @@
 					</div>
 
 					<div style="display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;font-size:10px;">
-
 						<div style="flex:1;">
 							<input
 								type="text"
@@ -595,7 +592,6 @@
 								style="width:100%;"
 								onkeyup="currentPage=1;paparJadual()">
 						</div>
-
 						<div>
 							Papar
 							<select id="rowsPerPage" onchange="ubahRows()">
@@ -606,7 +602,6 @@
 							</select>
 							rekod
 						</div>
-
 					</div>
 
 				</div><br>
@@ -863,7 +858,6 @@
 					<td>${p.masa}</td>
 				</tr>
 				`;
-
 			});
 
 			document.getElementById("senarai").innerHTML = html;
@@ -878,7 +872,6 @@
 			"</span>";
 
 			if(totalData==0){
-
 				document.getElementById("bilRekod").innerHTML =
 				"Tiada rekod dijumpai";
 
@@ -886,9 +879,7 @@
 
 				document.getElementById("bilRekod").innerHTML =
 				`Memaparkan ${start+1} hingga ${Math.min(end,totalData)} daripada ${totalData} peserta`;
-
 			}
-
 		}
 		
 		function paparAktiviti(){
@@ -947,13 +938,11 @@
 			semuaPeserta.forEach(function(p){
 				const namaKategori = p.gred || "Lain-lain";
 				if(!kategori[namaKategori]){
-
 					kategori[namaKategori] = {
 						jumlah:0,
 						hadir:0
 					};
 				}
-
 				kategori[namaKategori].jumlah++;
 
 				if(p.status==="HADIR"){
