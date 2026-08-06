@@ -90,6 +90,13 @@
 			padding:10px;
 			color:white;
 			box-shadow:0 8px 18px rgba(0,0,0,.15);
+			cursor:pointer;
+			transition:.3s;
+		}
+		
+		.card:hover{
+			transform:translateY(-4px);
+			box-shadow:0 10px 25px rgba(0,0,0,.25);
 		}
 
 		.search{
@@ -468,6 +475,60 @@
 			opacity:.4;
 			cursor:not-allowed;
 		}
+		
+		.popup{
+			display:none;
+			position:fixed;
+			left:0;
+			top:0;
+			width:100%;
+			height:100%;
+			background:rgba(0,0,0,.45);
+			z-index:9999;
+		}
+
+		.popup-content{
+			width:80%;
+			max-width:1100px;
+			margin:40px auto;
+			background:white;
+			border-radius:12px;
+			overflow:hidden;
+		}
+
+		.popup-header{
+			background:#1e3a8a;
+			color:white;
+			padding:15px 20px;
+			display:flex;
+			justify-content:space-between;
+			align-items:center;
+		}
+
+		.popup-header button{
+			background:red;
+			color:white;
+			border:none;
+			padding:8px 15px;
+			cursor:pointer;
+			border-radius:8px;
+		}
+
+		.popup-body{
+			max-height:600px;
+			overflow:auto;
+		}
+
+		.popup-body table{
+			width:100%;
+			min-width:100%;
+		}
+
+		.popup-body td{
+			padding:8px;
+			border-bottom:1px solid #ddd;
+		}
+		
 	</style>
 </head>
 
@@ -526,41 +587,24 @@
 	</div>
 
 	<div class="container">
-		<div class="cards">
-			<div class="card">
-				<h3>Jumlah Peserta</h3>
-				<h1 id="jumlah">0</h1>
-			</div>
-			<div class="card">
-				<h3>Hadir</h3>
-				<h1 id="hadir">0</h1>
-			</div>
-			<div class="card">
-				<h3>Belum Hadir</h3>
-				<h1 id="belum">0</h1>
-			</div>
-			<div class="card">
-				<h3>Peratus</h3>
-				<h1 id="peratus">0%</h1>
-			</div>
-			<div class="card">
-				<h3>Kemajuan Kehadiran</h3>
-				<!--div class="progressTitle">
-					Kemajuan Kehadiran
-				</div-->
+		<div class="card" onclick="showList('SEMUA')" style="cursor:pointer;">
+			<h3>Jumlah Peserta</h3>
+			<h1 id="jumlah">0</h1>
+		</div>
 
-				<div class="progressBar">
-					<div
-						id="progressFill"
-						class="progressFill">
-					</div>
-				</div>
-				<div
-					id="progressText"
-					class="progressText">
-					0 / 0 Peserta (0%)
-				</div>
-			</div>
+		<div class="card" onclick="showList('HADIR')" style="cursor:pointer;">
+			<h3>Hadir</h3>
+			<h1 id="hadir">0</h1>
+		</div>
+
+		<div class="card" onclick="showList('BELUM HADIR')" style="cursor:pointer;">
+			<h3>Belum Hadir</h3>
+			<h1 id="belum">0</h1>
+		</div>
+
+		<div class="card" onclick="showList('PERATUS')" style="cursor:pointer;">
+			<h3>Peratus</h3>
+			<h1 id="peratus">0%</h1>
 		</div><br>
 		<div class="dashboardLayout">
 			<div class="leftPanel">
@@ -665,7 +709,35 @@
 	<!--div class="footer">
 		Auto Refresh setiap 2 saat
 	</div-->
+	<!-- Popup Senarai Peserta -->
+	<div id="popupPeserta" class="popup">
+		<div class="popup-content">
+			<div class="popup-header">
+				<span id="popupTitle">
+					Senarai Peserta
+				</span>
+				<button onclick="tutupPopup()">
+					✖				</button>
+			</div>
 
+			<div class="popup-body">
+				<table>
+					<thead>
+						<tr>
+							<th>Bil</th>
+							<th>Nama</th>
+							<th>No KP</th>
+							<th>Jemputan</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody id="popupTable">
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	
 	<script>
 		if(sessionStorage.getItem("admin")!="true"){
 			window.location.replace("login.html");
@@ -1008,6 +1080,56 @@
 			});
 			document.getElementById("categoryStats").innerHTML = html;
 		}
+		
+		function showList(status){
+
+			let data = semuaPeserta;
+			if(status=="HADIR"){
+				data = semuaPeserta.filter(p=>p.status=="HADIR");
+			}
+
+			if(status=="BELUM HADIR"){
+				data = semuaPeserta.filter(p=>p.status!="HADIR");
+			}
+
+			let html="";
+			data.forEach(function(p){
+
+				html+=`
+				<tr>
+					<td>${p.nama}</td>
+					<td>${p.ic}</td>
+					<td>${p.gred}</td>
+					<td>${p.tempat}</td>
+					<td>${p.meja}</td>
+					<td>${p.kerusi}</td>
+					<td>${p.status}</td>
+				</tr>
+				`;
+			});
+
+			document.getElementById("popupTitle").innerHTML=status;
+
+			document.getElementById("popupBody").innerHTML=`
+				<table style="width:100%;border-collapse:collapse;">
+					<thead>
+						<tr>
+							<th>Nama</th>
+							<th>No KP</th>
+							<th>Kategori</th>
+							<th>Tempat</th>
+							<th>Meja</th>
+							<th>Kerusi</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						${html}
+					</tbody>
+				</table>
+			`;
+			document.getElementById("popupList").style.display="flex";
+		}
 
 		function buatPagination(totalData){
 			const totalPages = Math.ceil(totalData / rowsPerPage);
@@ -1211,6 +1333,30 @@
 				"</span>";
 		}
 	</script>
-
+	
+	<!-- Popup Senarai Peserta -->
+	<div id="popupPeserta" class="popup">
+		<div class="popupContent">
+			<div class="popupHeader">
+				<h3 id="popupTitle">Senarai Peserta</h3>
+				<button onclick="tutupPopup()">✖</button>
+			</div>
+			<div class="popupBody">
+				<table>
+					<thead>
+						<tr>
+							<th>Bil</th>
+							<th>Nama</th>
+							<th>No KP</th>
+							<th>Gred</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody id="popupTable">
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
