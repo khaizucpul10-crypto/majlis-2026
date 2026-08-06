@@ -850,19 +850,37 @@
 
 				html += `
 				<tr class="${pesertaHighlight===p.ic?'baruHadir':''}">
-					<td>${bil++}</td>
-					<td>${p.nama}</td>
-					<td>${p.ic}</td>
-					<td>${p.tempat}</td>
-					<td style="text-align:center">${p.gred || "-"}</td>
-					<td>${p.meja}</td>
-					<td>${p.kerusi}</td>
-					<td>
+					<td style="text-align:center;">${bil++}</td>
+
+					<td style="text-align:left;padding-left:15px;">
+						${p.nama}
+					</td>
+
+					<td style="text-align:center;">
+						${p.ic}
+					</td>
+
+					<td style="text-align:left;padding-left:15px;">
+						${p.tempat}
+					</td>
+
+					<td style="text-align:center;">
+						${p.meja}
+					</td>
+
+					<td style="text-align:center;">
+						${p.kerusi}
+					</td>
+
+					<td style="text-align:center;">
 						<span class="${p.status=="HADIR"?"hadir":"belum"}">
 							${p.status}
 						</span>
 					</td>
-					<td>${p.masa}</td>
+
+					<td style="text-align:center;">
+						${p.masa}
+					</td>
 				</tr>
 				`;
 			});
