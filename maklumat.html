@@ -248,8 +248,10 @@ if(user){
     document.getElementById("jawatan").textContent  = user.jawatan;
     document.getElementById("tempat").textContent  = user.tempat;
     document.getElementById("ket").textContent  = user.gred;
-    document.getElementById("meja").textContent  = user.meja;
-    document.getElementById("kerusi").textContent  = user.kerusi;
+    //document.getElementById("meja").textContent  = user.meja;
+    //document.getElementById("kerusi").textContent  = user.kerusi;
+	document.getElementById("meja").textContent  = "-";
+    document.getElementById("kerusi").textContent  = "-";
 	updateButtonStatus(user);
 }else{
 
@@ -264,126 +266,128 @@ if(user){
 }
 
 // BUTTON
-async function sahHadir(){
-	
-	const btn = document.getElementById("btnHadir");
+	async function sahHadir(){
+		
+		const btn = document.getElementById("btnHadir");
 
-    if(btn.disabled) return;
-	
-    let peserta;
-
-try{
-    peserta = JSON.parse(localStorage.getItem("peserta"));
-	}catch(e){
-		localStorage.removeItem("peserta");
-		peserta = null;
-	}
-	if(!confirm("Adakah anda ingin mengesahkan kehadiran?")){
-		return;
-	}
-
-    if(!peserta){
-        alert("Maklumat peserta tidak dijumpai.");
-        window.location.replace("index.html");
-        return;
-    }
-
-    btn.disabled = true;
-    btn.innerHTML='<span class="spinner"></span> Sedang merekod kehadiran...';
-
-    let timeoutId;
+		if(btn.disabled) return;
+		
+		let peserta;
 
 	try{
-
-		const controller = new AbortController();
-
-		timeoutId = setTimeout(() => {
-			controller.abort();
-		}, 15000);
-
-		const response = await fetch(
-			API_URL +
-			"?action=hadir&ic=" +
-			encodeURIComponent(peserta.ic),
-		{
-			method: "GET",
-			signal: controller.signal,
-			cache: "no-store"
-		});
-
-		clearTimeout(timeoutId);
-		
-		if(!response.ok){
-			throw new Error(
-				"Server Error " +
-				response.status +
-				" : " +
-				response.statusText
-			);
+		peserta = JSON.parse(localStorage.getItem("peserta"));
+		}catch(e){
+			localStorage.removeItem("peserta");
+			peserta = null;
 		}
-		
-		const contentType = response.headers.get("content-type");
-
-		if(!contentType || !contentType.includes("application/json")){
-			throw new Error("Server tidak menghantar JSON.");
+		if(!confirm("Adakah anda ingin mengesahkan kehadiran?")){
+			return;
 		}
-		let result;
+
+		if(!peserta){
+			alert("Maklumat peserta tidak dijumpai.");
+			window.location.replace("index.html");
+			return;
+		}
+
+		btn.disabled = true;
+		btn.innerHTML='<span class="spinner"></span> Sedang merekod kehadiran...';
+
+		let timeoutId;
 
 		try{
-			result = await response.json();
-		}catch(e){
-			throw new Error("Server menghantar data yang tidak sah.");
+
+			const controller = new AbortController();
+
+			timeoutId = setTimeout(() => {
+				controller.abort();
+			}, 15000);
+
+			const response = await fetch(
+				API_URL +
+				"?action=hadir&ic=" +
+				encodeURIComponent(peserta.ic),
+			{
+				method: "GET",
+				signal: controller.signal,
+				cache: "no-store"
+			});
+
+			clearTimeout(timeoutId);
+			
+			if(!response.ok){
+				throw new Error(
+					"Server Error " +
+					response.status +
+					" : " +
+					response.statusText
+				);
+			}
+			
+			const contentType = response.headers.get("content-type");
+
+			if(!contentType || !contentType.includes("application/json")){
+				throw new Error("Server tidak menghantar JSON.");
+			}
+			let result;
+
+			try{
+				result = await response.json();
+			}catch(e){
+				throw new Error("Server menghantar data yang tidak sah.");
+			}
+
+			if(result.status){
+				simpanPesertaHadir(peserta,result);
+				document.getElementById("meja").innerHTML = peserta.meja;
+				document.getElementById("kerusi").innerHTML = peserta.kerusi;
+			}
+			else if(
+				typeof result.message === "string" &&
+				result.message.includes("telah hadir")
+			){
+				simpanPesertaHadir(peserta,result);
+			}
+			else{
+
+				alert(result.message || "Ralat semasa merekod kehadiran.");
+
+				btn.disabled=false;
+				btn.innerHTML="✔ SILA SAHKAN KEHADIRAN";
+
+			}
+
+			}catch(err){
+
+			btn.disabled = false;
+			btn.innerHTML = "✔ SILA SAHKAN KEHADIRAN";
+
+			console.error(err);
+
+			if(err.name === "AbortError"){
+				alert("Sambungan mengambil masa terlalu lama.\nSila cuba semula.");
+			}
+			else if(err.message?.startsWith("Server Error")){
+				alert(
+					"Ralat Sistem\n\n" +
+					err.message
+				);
+			}
+			else if(err.message === "Server tidak menghantar JSON."){
+				alert(err.message);
+			}
+			else if(err.message === "Server menghantar data yang tidak sah."){
+				alert(err.message);
+			}
+			else{
+				alert("Tidak dapat berhubung dengan server.");
+			}
+
+		}finally{
+			clearTimeout(timeoutId);
 		}
 
-        if(result.status){
-			simpanPesertaHadir(peserta,result);
-		}
-		else if(
-			typeof result.message === "string" &&
-			result.message.includes("telah hadir")
-		){
-			simpanPesertaHadir(peserta,result);
-		}
-		else{
-
-			alert(result.message || "Ralat semasa merekod kehadiran.");
-
-			btn.disabled=false;
-			btn.innerHTML="✔ SILA SAHKAN KEHADIRAN";
-
-		}
-
-		}catch(err){
-
-		btn.disabled = false;
-		btn.innerHTML = "✔ SILA SAHKAN KEHADIRAN";
-
-		console.error(err);
-
-		if(err.name === "AbortError"){
-			alert("Sambungan mengambil masa terlalu lama.\nSila cuba semula.");
-		}
-		else if(err.message?.startsWith("Server Error")){
-			alert(
-				"Ralat Sistem\n\n" +
-				err.message
-			);
-		}
-		else if(err.message === "Server tidak menghantar JSON."){
-			alert(err.message);
-		}
-		else if(err.message === "Server menghantar data yang tidak sah."){
-			alert(err.message);
-		}
-		else{
-			alert("Tidak dapat berhubung dengan server.");
-		}
-
-	}finally{
-		clearTimeout(timeoutId);
 	}
-
-}
 
 	function updateButtonStatus(user){
 
