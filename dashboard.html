@@ -528,7 +528,6 @@
 			padding:8px;
 			border-bottom:1px solid #ddd;
 		}
-		
 	</style>
 </head>
 
@@ -588,21 +587,15 @@
 
 	<div class="container">
 		<div class="cards">
-			<div class="card"
-				 onclick="popupSemua()"
-				 style="cursor:pointer;">
+			<div class="card" onclick="filterStatus('SEMUA')">
 				<h3>Jumlah Peserta</h3>
 				<h1 id="jumlah">0</h1>
 			</div>
-			<div class="card"
-				 onclick="popupHadir()"
-				 style="cursor:pointer;">
+			<div class="card" onclick="filterStatus('HADIR')">
 				<h3>Hadir</h3>
 				<h1 id="hadir">0</h1>
 			</div>
-			<div class="card"
-				 onclick="popupBelum()"
-				 style="cursor:pointer;">
+			<div class="card" onclick="filterStatus('BELUM HADIR')">
 				<h3>Belum Hadir</h3>
 				<h1 id="belum">0</h1>
 			</div>
@@ -1306,30 +1299,6 @@
 				"</span>";
 		}
 	</script>
-	
-	<!-- Popup Senarai Peserta -->
-	<div id="popupPeserta" class="popup">
-		<div class="popupContent">
-			<div class="popupHeader">
-				<h3 id="popupTitle">Senarai Peserta</h3>
-				<button onclick="tutupPopup()">✖</button>
-			</div>
-			<div class="popupBody">
-				<table>
-					<thead>
-						<tr>
-							<th>Bil</th>
-							<th>Nama</th>
-							<th>No KP</th>
-							<th>Gred</th>
-							<th>Status</th>
-						</tr>
-					</thead>
-					<tbody id="popupTable">
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+
 </body>
 </html>
