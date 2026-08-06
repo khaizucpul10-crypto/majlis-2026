@@ -912,7 +912,8 @@
 			const dataFilter = semuaPeserta.filter(function(p){
 				return (
 					(p.nama || "").toLowerCase().includes(keyword) ||
-					String(p.ic || "").includes(keyword)
+					String(p.ic || "").toLowerCase().includes(keyword) ||
+					(p.status || "").toLowerCase().includes(keyword)
 				);
 			});
 
