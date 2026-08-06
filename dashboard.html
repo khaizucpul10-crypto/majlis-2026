@@ -587,24 +587,47 @@
 	</div>
 
 	<div class="container">
-		<div class="card" onclick="showList('SEMUA')" style="cursor:pointer;">
-			<h3>Jumlah Peserta</h3>
-			<h1 id="jumlah">0</h1>
-		</div>
+		<div class="cards">
+			<div class="card"
+				 onclick="popupSemua()"
+				 style="cursor:pointer;">
+				<h3>Jumlah Peserta</h3>
+				<h1 id="jumlah">0</h1>
+			</div>
+			<div class="card"
+				 onclick="popupHadir()"
+				 style="cursor:pointer;">
+				<h3>Hadir</h3>
+				<h1 id="hadir">0</h1>
+			</div>
+			<div class="card"
+				 onclick="popupBelum()"
+				 style="cursor:pointer;">
+				<h3>Belum Hadir</h3>
+				<h1 id="belum">0</h1>
+			</div>
+			<div class="card" onclick="filterStatus('SEMUA')">
+				<h3>Peratus</h3>
+				<h1 id="peratus">0%</h1>
+			</div>
+			<div class="card" onclick="filterStatus('SEMUA')">
+				<h3>Kemajuan Kehadiran</h3>
+				<!--div class="progressTitle">
+					Kemajuan Kehadiran
+				</div-->
 
-		<div class="card" onclick="showList('HADIR')" style="cursor:pointer;">
-			<h3>Hadir</h3>
-			<h1 id="hadir">0</h1>
-		</div>
-
-		<div class="card" onclick="showList('BELUM HADIR')" style="cursor:pointer;">
-			<h3>Belum Hadir</h3>
-			<h1 id="belum">0</h1>
-		</div>
-
-		<div class="card" onclick="showList('PERATUS')" style="cursor:pointer;">
-			<h3>Peratus</h3>
-			<h1 id="peratus">0%</h1>
+				<div class="progressBar">
+					<div
+						id="progressFill"
+						class="progressFill">
+					</div>
+				</div>
+				<div
+					id="progressText"
+					class="progressText">
+					0 / 0 Peserta (0%)
+				</div>
+			</div>
 		</div><br>
 		<div class="dashboardLayout">
 			<div class="leftPanel">
@@ -1079,56 +1102,6 @@
 				`;
 			});
 			document.getElementById("categoryStats").innerHTML = html;
-		}
-		
-		function showList(status){
-
-			let data = semuaPeserta;
-			if(status=="HADIR"){
-				data = semuaPeserta.filter(p=>p.status=="HADIR");
-			}
-
-			if(status=="BELUM HADIR"){
-				data = semuaPeserta.filter(p=>p.status!="HADIR");
-			}
-
-			let html="";
-			data.forEach(function(p){
-
-				html+=`
-				<tr>
-					<td>${p.nama}</td>
-					<td>${p.ic}</td>
-					<td>${p.gred}</td>
-					<td>${p.tempat}</td>
-					<td>${p.meja}</td>
-					<td>${p.kerusi}</td>
-					<td>${p.status}</td>
-				</tr>
-				`;
-			});
-
-			document.getElementById("popupTitle").innerHTML=status;
-
-			document.getElementById("popupBody").innerHTML=`
-				<table style="width:100%;border-collapse:collapse;">
-					<thead>
-						<tr>
-							<th>Nama</th>
-							<th>No KP</th>
-							<th>Kategori</th>
-							<th>Tempat</th>
-							<th>Meja</th>
-							<th>Kerusi</th>
-							<th>Status</th>
-						</tr>
-					</thead>
-					<tbody>
-						${html}
-					</tbody>
-				</table>
-			`;
-			document.getElementById("popupList").style.display="flex";
 		}
 
 		function buatPagination(totalData){
