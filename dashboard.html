@@ -1007,25 +1007,21 @@
 		function paparAktiviti(){
 			let html = "";
 
-			const hadir = semuaPeserta
-				.filter(p => p.status === "TELAH HADIR")
-				.sort(function(a,b){
+			.sort(function(a,b){
 
-					const aDate = new Date(
-						(a.tarikh || "").split("/").reverse().join("-") +
-						"T" +
-						(a.masa || "00:00:00")
-					);
+				const aDate = new Date(a.tarikh);
+				const bDate = new Date(b.tarikh);
 
-					const bDate = new Date(
-						(b.tarikh || "").split("/").reverse().join("-") +
-						"T" +
-						(b.masa || "00:00:00")
-					);
+				const aTime = (a.masa || "00:00:00").split(":");
+				const bTime = (b.masa || "00:00:00").split(":");
 
-					return bDate - aDate;
-				})
-				.slice(0,2);	//tukar bilangan rekod dipaparkan
+				aDate.setHours(aTime[0], aTime[1], aTime[2]);
+				bDate.setHours(bTime[0], bTime[1], bTime[2]);
+
+				return bDate - aDate;
+
+			})
+			.slice(0,2);
 
 			if(hadir.length===0){
 				html = "Tiada aktiviti.";
