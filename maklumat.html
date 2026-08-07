@@ -395,7 +395,7 @@ if(user){
 		const btnKembali=document.getElementById("btnKembali");
 		const box=document.getElementById("statusBox");
 
-		if(user && user.hadir==="HADIR"){
+		if(user && user.hadir==="TELAH HADIR"){
 
 			btnHadir.style.display="none";
 			btnKembali.style.display="block";
@@ -428,7 +428,7 @@ if(user){
 	}
 	
 	function simpanPesertaHadir(peserta, result){
-		peserta.hadir = "HADIR";
+		peserta.hadir = "TELAH HADIR";
 		peserta.tarikh = result.tarikh;
 		peserta.masa = result.masa;
 

@@ -595,7 +595,7 @@
 
 			<div class="card" onclick="filterStatistik('HADIR')"
 				 style="cursor:pointer;">
-				<h3>Hadir</h3>
+				<h3>Telah Hadir</h3>
 				<h1 id="hadir">0</h1>
 			</div>
 
@@ -817,8 +817,8 @@
 					// Jika sebelum ini BELUM HADIR, sekarang HADIR
 					if(
 						statusLama[p.ic] &&
-						statusLama[p.ic] !== "HADIR" &&
-						p.status === "HADIR"
+						statusLama[p.ic] !== "TELAH HADIR" &&
+						p.status === "TELAH HADIR"
 					){
 						pesertaBaru = p;
 						pesertaHighlight = p.ic;
@@ -842,7 +842,7 @@
 						numeric:true
 						});
 					}
-					return a.status=="HADIR" ? -1 : 1;
+					return a.status=="TELAH HADIR" ? -1 : 1;
 				});
 
 				document.getElementById("lastUpdate").innerHTML=
@@ -1008,7 +1008,7 @@
 			let html = "";
 
 			const hadir = semuaPeserta
-				.filter(p => p.status === "HADIR")
+				.filter(p => p.status === "TELAH HADIR")
 				.sort(function(a,b){
 
 					const aDate = new Date(
@@ -1067,7 +1067,7 @@
 				}
 				kategori[namaKategori].jumlah++;
 
-				if(p.status==="HADIR"){
+				if(p.status==="TELAH HADIR"){
 					kategori[namaKategori].hadir++;
 				}
 			});
