@@ -587,15 +587,20 @@
 
 	<div class="container">
 		<div class="cards">
-			<div class="card" onclick="filterStatus('SEMUA')">
+			<div class="card" onclick="filterStatistik('')"
+				 style="cursor:pointer;">
 				<h3>Jumlah Peserta</h3>
 				<h1 id="jumlah">0</h1>
 			</div>
-			<div class="card" onclick="filterStatus('HADIR')">
+
+			<div class="card" onclick="filterStatistik('HADIR')"
+				 style="cursor:pointer;">
 				<h3>Hadir</h3>
 				<h1 id="hadir">0</h1>
 			</div>
-			<div class="card" onclick="filterStatus('BELUM HADIR')">
+
+			<div class="card" onclick="filterStatistik('BELUM HADIR')"
+				 style="cursor:pointer;">
 				<h3>Belum Hadir</h3>
 				<h1 id="belum">0</h1>
 			</div>
@@ -655,7 +660,7 @@
 							<input
 								type="text"
 								id="carian"
-								placeholder="Cari Nama atau No KP..."
+								placeholder="Cari Nama atau No KP atau Status..."
 								style="width:100%;"
 								onkeyup="currentPage=1;paparJadual()">
 						</div>
@@ -911,6 +916,11 @@
 				.toLowerCase();
 
 			const dataFilter = semuaPeserta.filter(function(p){
+				
+				const nama = (p.nama || "").toLowerCase();
+				const ic = String(p.ic || "").toLowerCase();
+				const status = (p.status || "").toLowerCase();
+	
 				return (
 					(p.nama || "").toLowerCase().includes(keyword) ||
 					String(p.ic || "").toLowerCase().includes(keyword) ||
@@ -1202,6 +1212,17 @@
 			);
 
 			currentPage = 1;
+			paparJadual();
+		}
+		
+		function filterStatistik(status){
+			const carian = document.getElementById("carian");
+			if(status==""){
+				carian.value="";
+			}else{
+				carian.value=status;
+			}
+			currentPage=1;
 			paparJadual();
 		}
 		
