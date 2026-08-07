@@ -1006,7 +1006,8 @@
 		
 		function paparAktiviti(){
 			let html = "";
-
+			const hadir = semuaPeserta
+			.filter(p => p.status === "TELAH HADIR")
 			.sort(function(a,b){
 
 				const aDate = new Date(a.tarikh);
