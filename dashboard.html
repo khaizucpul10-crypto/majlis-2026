@@ -1010,16 +1010,7 @@
 			.filter(p => p.status === "TELAH HADIR")
 			.sort(function(a,b){
 
-				const aDate = new Date(a.tarikh);
-				const bDate = new Date(b.tarikh);
-
-				const aTime = (a.masa || "00:00:00").split(":");
-				const bTime = (b.masa || "00:00:00").split(":");
-
-				aDate.setHours(aTime[0], aTime[1], aTime[2]);
-				bDate.setHours(bTime[0], bTime[1], bTime[2]);
-
-				return bDate - aDate;
+				return new Date(b.datetime) - new Date(a.datetime);
 
 			})
 			.slice(0,2);
