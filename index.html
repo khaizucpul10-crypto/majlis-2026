@@ -81,89 +81,68 @@
 	</head>
 
 	<body>
-	<br><br><br>
-	<div class="container">
+		<br><br><br>
+		<div class="container">
 
-	<img src="images/jatanegarabiru.png" class="logo" alt="">
+			<img src="images/jatanegarabiru.png" class="logo" alt="">
 
-	<div class="welcome">Selamat Datang</div><br>
-	
-	<div class="welcome" style="color: white;">
-    Majlis Anugerah Perkhidmatan Cemerlang Tahun 2025<br>
-    PPD TAWAU
-</div>
-	<br><br>
-	<div style="margin-top:30px;">
-		
-		<input type="text" id="icInput" placeholder="Masukkan No IC"
-		style="width:80%; padding:12px; border-radius:10px; border:none; text-align:center; font-size:16px;">
-		
-		<br><br>
+			<div class="welcome">Selamat Datang</div><br>
+			
+			<div class="welcome" style="color: white;">
+				Majlis Anugerah Perkhidmatan Cemerlang Tahun 2025<br>
+				PPD TAWAU
+			</div>
+			<br><br>
+			<div style="margin-top:30px;">			
+				<input type="text" id="icInput" placeholder="Masukkan No IC"
+				style="width:80%; padding:12px; border-radius:10px; border:none; text-align:center; font-size:16px;">			
+				<br><br>
 
-		<button class="btn" onclick="semakIC()">
-			🔍 SEMAK
-		</button>
-		<br><br><br><br><br><br>
-	</div>
-	<script>
-	async function semakIC(){
+				<button class="btn" onclick="semakIC()">
+					🔍 SEMAK
+				</button>
+				<br><br><br><br><br><br>
+			</div>
+			<script>
+				async function semakIC(){
 
-    let ic = document.getElementById("icInput").value.trim();
+					let ic = document.getElementById("icInput").value.trim();
 
-    if(ic==""){
-        alert("Sila masukkan No. IC");
-        return;
-    }
+					if(ic==""){
+						alert("Sila masukkan No. IC");
+						return;
+					}
 
-    try{
-	
-		console.log(API_URL);
-		console.log(ic);
-		
-        let response = await fetch(API_URL + "?action=semak&ic=" + encodeURIComponent(ic));
-		
+					try{				
+						console.log(API_URL);
+						console.log(ic);
+						
+						let response = await fetch(API_URL + "?action=semak&ic=" + encodeURIComponent(ic));
+						let data = await response.json();
 
-        let data = await response.json();
+						if(data.status){
+							localStorage.setItem("peserta", JSON.stringify(data));
+						   //localStorage.setItem("ic", data.ic);
 
-        if(data.status){
+							window.location.href="maklumat.html";
 
-            localStorage.setItem("peserta", JSON.stringify(data));
-		   //localStorage.setItem("ic", data.ic);
+						}else{
+							alert("❌ No. IC tidak dijumpai.");
+						}
 
-            window.location.href="maklumat.html";
+					}catch(err){
 
-        }else{
-
-            alert("❌ No. IC tidak dijumpai.");
-
-        }
-
-    }catch(err){
-
-        alert("Tidak dapat berhubung dengan server.");
-
-        console.log(err);
-
-    }
-
-}
-	</script>
-	<div id="result"></div>
-	</div>
-
-	<script>
-	
-
-	
-	</script>
-
-	</div>
-
-	<script>
-	function mulaScan(){
-		window.location.href="scan.html";
-	}
-	</script>
-
+						alert("Tidak dapat berhubung dengan server.");
+						console.log(err);
+					}
+				}
+			</script>
+			<div id="result"></div>
+		</div>
+		<script>
+			function mulaScan(){
+				window.location.href="scan.html";
+			}
+		</script>
 	</body>
 </html>
