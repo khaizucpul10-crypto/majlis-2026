@@ -435,14 +435,38 @@ if(user){
 	}
 	
 	function simpanPesertaHadir(peserta, result){
+
 		peserta.hadir = "TELAH HADIR";
-		peserta.tarikh = result.tarikh;
-		peserta.masa = result.masa;
+
+		if(result.tarikh){
+			peserta.tarikh = result.tarikh;
+		}
+
+		if(result.masa){
+			peserta.masa = result.masa;
+		}
+
+		// Pastikan meja dan kerusi kekal
+		if(result.meja){
+			peserta.meja = result.meja;
+		}
+
+		if(result.kerusi){
+			peserta.kerusi = result.kerusi;
+		}
 
 		localStorage.setItem(
 			"peserta",
 			JSON.stringify(peserta)
 		);
+
+		// Paparkan meja dan kerusi
+		document.getElementById("meja").textContent =
+			peserta.meja || "-";
+
+		document.getElementById("kerusi").textContent =
+			peserta.kerusi || "-";
+
 		updateButtonStatus(peserta);
 	}
 
