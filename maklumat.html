@@ -247,11 +247,18 @@ if(user){
     document.getElementById("noic").textContent  = "No. IC: " + user.ic;
     document.getElementById("jawatan").textContent  = user.jawatan;
     document.getElementById("tempat").textContent  = user.tempat;
-    document.getElementById("ket").textContent  = user.gred;
-    //document.getElementById("meja").textContent  = user.meja;
-    //document.getElementById("kerusi").textContent  = user.kerusi;
-	document.getElementById("meja").textContent  = "-";
-    document.getElementById("kerusi").textContent  = "-";
+    document.getElementById("ket").textContent = user.gred || "-";
+
+	document.getElementById("meja").textContent =
+		user.meja && String(user.meja).trim() !== ""
+		? user.meja
+		: "-";
+
+	document.getElementById("kerusi").textContent =
+		user.kerusi && String(user.kerusi).trim() !== ""
+		? user.kerusi
+		: "-";
+
 	updateButtonStatus(user);
 }else{
 
