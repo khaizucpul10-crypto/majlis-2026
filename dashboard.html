@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 
 	<script src="config.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
 	<title>Dashboard Kehadiran</title>
 
@@ -1321,13 +1322,14 @@
 				"</span>";
 		}
 		
-		function exportExcel(){
+	function exportExcel(){
 
 			const keyword = document
 				.getElementById("carian")
 				.value
 				.toLowerCase();
 
+			// Ambil data berdasarkan carian semasa
 			const data = semuaPeserta.filter(function(p){
 
 				return (
@@ -1338,9 +1340,23 @@
 
 			});
 
-			let csv = [];
+			// Jika tiada rekod
+			if(data.length === 0){
 
-			csv.push([
+				alert("Tiada rekod untuk dimuat turun.");
+
+				return;
+
+			}
+
+			// ==============================
+			// SEDIAKAN DATA EXCEL
+			// ==============================
+
+			const excelData = [];
+
+			// Header
+			excelData.push([
 				"Bil",
 				"Nama",
 				"No KP",
@@ -1353,73 +1369,82 @@
 				"Masa"
 			]);
 
-			data.forEach(function(p, index){
+			// Data peserta
+			data.forEach(function(p,index){
 
-				csv.push([
+				excelData.push([
 					index + 1,
-					p.nama,
-					p.ic,
-					p.tempat,
-					p.gred,
-					p.meja,
-					p.kerusi,
-					p.status,
-					p.tarikh,
-					p.masa
+					p.nama || "",
+					p.ic || "",
+					p.tempat || "",
+					p.gred || "",
+					p.meja || "",
+					p.kerusi || "",
+					p.status || "",
+					p.tarikh || "",
+					p.masa || ""
 				]);
 
 			});
 
-			let csvContent = "";
+			// ==============================
+			// BINA WORKBOOK
+			// ==============================
 
-			csv.forEach(function(row){
+			const worksheet = XLSX.utils.aoa_to_sheet(excelData);
 
-				csvContent += row.map(function(item){
+			const workbook = XLSX.utils.book_new();
 
-					return '"' +
-						String(item).replace(/"/g, '""') +
-						'"';
-
-				}).join(",") + "\r\n";
-
-			});
-
-			const blob = new Blob(
-				["\ufeff" + csvContent],
-				{
-					type:"text/csv;charset=utf-8;"
-				}
+			XLSX.utils.book_append_sheet(
+				workbook,
+				worksheet,
+				"Senarai Peserta"
 			);
 
-			const url = URL.createObjectURL(blob);
+			// ==============================
+			// LEBAR COLUMN
+			// ==============================
 
-			const link = document.createElement("a");
+			worksheet["!cols"] = [
+				{ wch: 6 },   // Bil
+				{ wch: 35 },  // Nama
+				{ wch: 18 },  // No KP
+				{ wch: 30 },  // Tempat
+				{ wch: 15 },  // Gred
+				{ wch: 10 },  // Meja
+				{ wch: 10 },  // Kerusi
+				{ wch: 18 },  // Status
+				{ wch: 15 },  // Tarikh
+				{ wch: 12 }   // Masa
+			];
+
+			// ==============================
+			// NAMA FAIL
+			// ==============================
 
 			const today = new Date();
 
 			const filename =
 				"Senarai_Peserta_" +
 				today.getFullYear() +
-				("0" + (today.getMonth()+1)).slice(-2) +
+				("0" + (today.getMonth() + 1)).slice(-2) +
 				("0" + today.getDate()).slice(-2) +
 				"_" +
 				("0" + today.getHours()).slice(-2) +
 				("0" + today.getMinutes()).slice(-2) +
-				".csv";
+				".xlsx";
 
-			link.href = url;
-			link.download = filename;
+			// ==============================
+			// DOWNLOAD
+			// ==============================
 
-			document.body.appendChild(link);
+			XLSX.writeFile(
+				workbook,
+				filename
+			);
 
-			link.click();
-
-			document.body.removeChild(link);
-
-			URL.revokeObjectURL(url);
 		}
-		
-		
+
 	</script>
 
 </body>
