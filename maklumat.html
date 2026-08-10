@@ -2,475 +2,471 @@
 
 <html>
 	<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="config.js"></script>
-	<style>
-		body{
-			margin:0;
-			font-family:Segoe UI;
-			background:#f4f6fb;
-		}
-
-		/* HEADER */
-		.header{
-			background:#1e3a8a;
-			color:white;
-			padding:15px;
-			text-align:center;
-			font-weight:bold;
-		}
-
-		/* CARD */
-		.card{
-			background:#fffce4;
-			margin:20px;
-			padding:20px;
-			border-radius:15px;
-			box-shadow:0 5px 15px rgba(0,0,0,0.1);
-			text-align:center;
-			font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-		}
-
-		/* PROFILE */
-		.profile{
-			width:80px;
-			height:80px;
-			border-radius:50%;
-			background:#1e3a8a;
-			margin:auto;
-		}
-
-		/* NAME */
-		.name{
-			font-size:20px;
-			font-weight:bold;
-			margin-top:10px;
-			word-break:break-word;
-			overflow-wrap:anywhere;
-		}
-
-		.ic{
-			background:#eef2ff;
-			display:inline-block;
-			padding:5px 12px;
-			border-radius:20px;
-			margin-top:5px;
-		}
-
-		/* INFO */
-		.row{
-			display:flex;
-			justify-content:space-between;
-			margin-top:15px;
-			font-size:14px;
-		}
-
-		.big{
-			font-size:20px;
-			font-weight:bold;
-			color:#CC2D0E;
-		}
-
-		/* BUTTON */
-		.btn{
-			width:100%;
-			padding:15px;
-			border:none;
-			border-radius:10px;
-			margin-top:15px;
-			font-size:16px;
-		}
-
-		.green{
-			background:#16a34a;
-			color:white;
-		}
-
-		.gray{
-			background:#e5e7eb;
-		}
-		
-		.logo{
-			width:80px;
-			height:auto;
-		}
-		
-		.welcome{
-			font-size:15px;
-			font-weight:bold;
-			text-align:center;
-			color:#1e3a8a;
-			font-family: Georgia, serif;
-		}
-		
-		.perjawatan{
-			font-size:13px;
-			text-align:center;
-			color:#1e3a8a;
-			word-break:break-word;
-			overflow-wrap:anywhere;
-		}
-		
-		.penempatan{
-			font-size:13px;
-			text-align:center;
-			color:#1e3a8a;
-			word-break:break-word;
-			overflow-wrap:anywhere;
-		}
-		
-		#statusBox{
-			display:none;
-			background:#dcfce7;
-			border-left:6px solid #16a34a;
-			color:#166534;
-			text-align:center;
-			padding:15px;
-			border-radius:10px;
-			margin:15px 0;
-			font-weight:bold;
-		}
-		
-		.spinner{
-			display:inline-block;
-			width:16px;
-			height:16px;
-			margin-right:8px;
-			border:2px solid #fff;
-			border-top:2px solid transparent;
-			border-radius:50%;
-			animation:spin .8s linear infinite;
-			vertical-align:middle;
-		}
-
-		@keyframes spin{
-			to{
-				transform:rotate(360deg);
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="config.js"></script>
+		<style>
+			body{
+				margin:0;
+				font-family:Segoe UI;
+				background:#f4f6fb;
 			}
-		}
-		
-		.row{
-			display:flex;
-			justify-content:space-between;
-			align-items:flex-start;
-			gap:10px;
-			margin-top:15px;
-			font-size:14px;
-		}
-		
-		.row div:first-child{
-			flex:1;
-		}
 
-		.row div:last-child{
-			flex:1;
-			text-align:right;
-		}
+			/* HEADER */
+			.header{
+				background:#1e3a8a;
+				color:white;
+				padding:15px;
+				text-align:center;
+				font-weight:bold;
+			}
 
-		.btn:disabled{
-			opacity:.8;
-			cursor:not-allowed;
-			pointer-events:none;
-		}
-	</style>
+			/* CARD */
+			.card{
+				background:#fffce4;
+				margin:20px;
+				padding:20px;
+				border-radius:15px;
+				box-shadow:0 5px 15px rgba(0,0,0,0.1);
+				text-align:center;
+				font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+			}
 
-</head>
+			/* PROFILE */
+			.profile{
+				width:80px;
+				height:80px;
+				border-radius:50%;
+				background:#1e3a8a;
+				margin:auto;
+			}
 
-<body>
+			/* NAME */
+			.name{
+				font-size:20px;
+				font-weight:bold;
+				margin-top:10px;
+				word-break:break-word;
+				overflow-wrap:anywhere;
+			}
 
-<div class="header">MAKLUMAT TETAMU</div>
+			.ic{
+				background:#eef2ff;
+				display:inline-block;
+				padding:5px 12px;
+				border-radius:20px;
+				margin-top:5px;
+			}
 
-<div class="card">
-	<img src="images/jatanegarayellowsmall.png" class="logo" alt=""><br>
-		<!--div class="profile"></div-->
+			/* INFO */
+			.row{
+				display:flex;
+				justify-content:space-between;
+				margin-top:15px;
+				font-size:14px;
+			}
 
-<div class="welcome" style="color:#1e3a8a;">
-    Majlis Anugerah Perkhidmatan Cemerlang Tahun 2025<br>
-    PPD TAWAU
-</div><br>
+			.big{
+				font-size:20px;
+				font-weight:bold;
+				color:#CC2D0E;
+			}
 
-<div class="name" id="nama"></div>
-<div class="perjawatan" id="jawatan"></div>
-<div class="penempatan" id="tempat"></div><br>
-<div class="ic" id="noic"></div><br><br>
+			/* BUTTON */
+			.btn{
+				width:100%;
+				padding:15px;
+				border:none;
+				border-radius:10px;
+				margin-top:15px;
+				font-size:16px;
+			}
 
+			.green{
+				background:#16a34a;
+				color:white;
+			}
 
+			.gray{
+				background:#e5e7eb;
+			}
+			
+			.logo{
+				width:80px;
+				height:auto;
+			}
+			
+			.welcome{
+				font-size:15px;
+				font-weight:bold;
+				text-align:center;
+				color:#1e3a8a;
+				font-family: Georgia, serif;
+			}
+			
+			.perjawatan{
+				font-size:13px;
+				text-align:center;
+				color:#1e3a8a;
+				word-break:break-word;
+				overflow-wrap:anywhere;
+			}
+			
+			.penempatan{
+				font-size:13px;
+				text-align:center;
+				color:#1e3a8a;
+				word-break:break-word;
+				overflow-wrap:anywhere;
+			}
+			
+			#statusBox{
+				display:none;
+				background:#dcfce7;
+				border-left:6px solid #16a34a;
+				color:#166534;
+				text-align:center;
+				padding:15px;
+				border-radius:10px;
+				margin:15px 0;
+				font-weight:bold;
+			}
+			
+			.spinner{
+				display:inline-block;
+				width:16px;
+				height:16px;
+				margin-right:8px;
+				border:2px solid #fff;
+				border-top:2px solid transparent;
+				border-radius:50%;
+				animation:spin .8s linear infinite;
+				vertical-align:middle;
+			}
 
-<div class="row">
-    <div>Kategori</div>
-    <div id="ket"></div>
-</div>
+			@keyframes spin{
+				to{
+					transform:rotate(360deg);
+				}
+			}
+			
+			.row{
+				display:flex;
+				justify-content:space-between;
+				align-items:flex-start;
+				gap:10px;
+				margin-top:15px;
+				font-size:14px;
+			}
+			
+			.row div:first-child{
+				flex:1;
+			}
 
-<hr>
-<div id="statusBox"></div>
+			.row div:last-child{
+				flex:1;
+				text-align:right;
+			}
 
-<div class="row">
-    <div>No. Meja</div>
-    <div class="big" id="meja"></div>
-</div>
+			.btn:disabled{
+				opacity:.8;
+				cursor:not-allowed;
+				pointer-events:none;
+			}
+		</style>
+	</head>
 
-<div class="row">
-    <div>No. Kerusi</div>
-    <div class="big" id="kerusi"></div>
-</div>
+	<body>
+		<div class="header">MAKLUMAT TETAMU</div>
 
-<!--button class="btn green" onclick="sahHadir()">✔ SILA SAHKAN KEHADIRAN</button-->
-<button id="btnHadir" class="btn green" onclick="sahHadir()">
-    ✔ SILA SAHKAN KEHADIRAN
-</button>
+	<div class="card">
+		<img src="images/jatanegarayellowsmall.png" class="logo" alt=""><br>
+			<!--div class="profile"></div-->
 
-<button
-    id="btnKembali"
-    class="btn gray"
-    onclick="kembali()"
-    style="display:none;">
-    ← KEMBALI
-</button>
-<br><br>
+		<div class="welcome" style="color:#1e3a8a;">
+			Majlis Anugerah Perkhidmatan Cemerlang Tahun 2025<br>
+			PPD TAWAU
+		</div><br>
 
-<!--button class="btn gray" onclick="kembali()">↻ KEMBALI IMBAS</button-->
+		<div class="name" id="nama"></div>
+		<div class="perjawatan" id="jawatan"></div>
+		<div class="penempatan" id="tempat"></div><br>
+		<div class="ic" id="noic"></div><br><br>
 
-</div>
+		<div class="row">
+			<div align="Left">Kategori</div>
+			<div id="ket"></div>
+		</div>
 
-<script>
-let user=null;
+		<hr>
+		<div id="statusBox"></div>
 
-try{
-    user=JSON.parse(localStorage.getItem("peserta"));
-	}catch(e){
-		localStorage.removeItem("peserta");
-	}
+		<div class="row">
+			<div>No. Meja</div>
+			<div class="big" id="meja"></div>
+		</div>
 
-if(user){
+		<div class="row">
+			<div>No. Kerusi</div>
+			<div class="big" id="kerusi"></div>
+		</div>
 
-    document.getElementById("nama").textContent  = user.nama;
-    document.getElementById("noic").textContent  = "No. IC: " + user.ic;
-    document.getElementById("jawatan").textContent  = user.jawatan;
-    document.getElementById("tempat").textContent  = user.tempat;
-    document.getElementById("ket").textContent = user.gred || "-";
+		<!--button class="btn green" onclick="sahHadir()">✔ SILA SAHKAN KEHADIRAN</button-->
+		<button id="btnHadir" class="btn green" onclick="sahHadir()">
+			✔ SILA SAHKAN KEHADIRAN
+		</button>
 
-	document.getElementById("meja").textContent =
-		user.meja && String(user.meja).trim() !== ""
-		? user.meja
-		: "-";
+		<button
+			id="btnKembali"
+			class="btn gray"
+			onclick="kembali()"
+			style="display:none;">
+			← KEMBALI
+		</button>
+		<br><br>
 
-	document.getElementById("kerusi").textContent =
-		user.kerusi && String(user.kerusi).trim() !== ""
-		? user.kerusi
-		: "-";
+	<!--button class="btn gray" onclick="kembali()">↻ KEMBALI IMBAS</button-->
 
-	updateButtonStatus(user);
-}else{
+	</div>
 
-    document.querySelector(".card").innerHTML=`
-	<h2>❌ Data tidak dijumpai</h2>
-	<p>Kembali ke halaman utama...</p>
-	`;
-
-	setTimeout(function(){
-		window.location.replace("index.html");
-	},3000);
-}
-
-// BUTTON
-	async function sahHadir(){
-		
-		const btn = document.getElementById("btnHadir");
-
-		if(btn.disabled) return;
-		
-		let peserta;
+	<script>
+	let user=null;
 
 	try{
-		peserta = JSON.parse(localStorage.getItem("peserta"));
+		user=JSON.parse(localStorage.getItem("peserta"));
 		}catch(e){
 			localStorage.removeItem("peserta");
-			peserta = null;
-		}
-		if(!confirm("Adakah anda ingin mengesahkan kehadiran?")){
-			return;
 		}
 
-		if(!peserta){
-			alert("Maklumat peserta tidak dijumpai.");
-			window.location.replace("index.html");
-			return;
-		}
+	if(user){
 
-		btn.disabled = true;
-		btn.innerHTML='<span class="spinner"></span> Sedang merekod kehadiran...';
+		document.getElementById("nama").textContent  = user.nama;
+		document.getElementById("noic").textContent  = "No. IC: " + user.ic;
+		document.getElementById("jawatan").textContent  = user.jawatan;
+		document.getElementById("tempat").textContent  = user.tempat;
+		document.getElementById("ket").textContent = user.gred || "-";
 
-		let timeoutId;
-
-		try{
-
-			const controller = new AbortController();
-
-			timeoutId = setTimeout(() => {
-				controller.abort();
-			}, 15000);
-
-			const response = await fetch(
-				API_URL +
-				"?action=hadir&ic=" +
-				encodeURIComponent(peserta.ic),
-			{
-				method: "GET",
-				signal: controller.signal,
-				cache: "no-store"
-			});
-
-			clearTimeout(timeoutId);
-			
-			if(!response.ok){
-				throw new Error(
-					"Server Error " +
-					response.status +
-					" : " +
-					response.statusText
-				);
-			}
-			
-			const contentType = response.headers.get("content-type");
-
-			if(!contentType || !contentType.includes("application/json")){
-				throw new Error("Server tidak menghantar JSON.");
-			}
-			let result;
-
-			try{
-				result = await response.json();
-			}catch(e){
-				throw new Error("Server menghantar data yang tidak sah.");
-			}
-
-			if(result.status){
-				simpanPesertaHadir(peserta,result);
-				document.getElementById("meja").innerHTML = peserta.meja;
-				document.getElementById("kerusi").innerHTML = peserta.kerusi;
-			}
-			else if(
-				typeof result.message === "string" &&
-				result.message.includes("telah hadir")
-			){
-				simpanPesertaHadir(peserta,result);
-			}
-			else{
-
-				alert(result.message || "Ralat semasa merekod kehadiran.");
-
-				btn.disabled=false;
-				btn.innerHTML="✔ SILA SAHKAN KEHADIRAN";
-
-			}
-
-			}catch(err){
-
-			btn.disabled = false;
-			btn.innerHTML = "✔ SILA SAHKAN KEHADIRAN";
-
-			console.error(err);
-
-			if(err.name === "AbortError"){
-				alert("Sambungan mengambil masa terlalu lama.\nSila cuba semula.");
-			}
-			else if(err.message?.startsWith("Server Error")){
-				alert(
-					"Ralat Sistem\n\n" +
-					err.message
-				);
-			}
-			else if(err.message === "Server tidak menghantar JSON."){
-				alert(err.message);
-			}
-			else if(err.message === "Server menghantar data yang tidak sah."){
-				alert(err.message);
-			}
-			else{
-				alert("Tidak dapat berhubung dengan server.");
-			}
-
-		}finally{
-			clearTimeout(timeoutId);
-		}
-
-	}
-
-	function updateButtonStatus(user){
-
-		const btnHadir=document.getElementById("btnHadir");
-		const btnKembali=document.getElementById("btnKembali");
-		const box=document.getElementById("statusBox");
-
-		if(user && user.hadir==="TELAH HADIR"){
-
-			btnHadir.style.display="none";
-			btnKembali.style.display="block";
-
-			box.style.display="block";
-
-			box.innerHTML=`
-				<div style="font-size:15px;font-weight:bold">
-					✅ Kehadiran Berjaya Direkod
-				</div>
-
-				<div style="margin-top:8px;font-size:13px">
-					${user.tarikh || ""} ${user.masa || ""}
-				</div>
-			`;
-
-		}else{
-
-			btnHadir.style.display="block";
-			btnKembali.style.display="none";
-			box.style.display="none";
-
-		}
-	}
-
-	function kembali(){
-		localStorage.removeItem("peserta");
-		sessionStorage.clear();
-		window.location.replace("index.html");
-	}
-	
-	function simpanPesertaHadir(peserta, result){
-
-		peserta.hadir = "TELAH HADIR";
-
-		if(result.tarikh){
-			peserta.tarikh = result.tarikh;
-		}
-
-		if(result.masa){
-			peserta.masa = result.masa;
-		}
-
-		// Pastikan meja dan kerusi kekal
-		if(result.meja){
-			peserta.meja = result.meja;
-		}
-
-		if(result.kerusi){
-			peserta.kerusi = result.kerusi;
-		}
-
-		localStorage.setItem(
-			"peserta",
-			JSON.stringify(peserta)
-		);
-
-		// Paparkan meja dan kerusi
 		document.getElementById("meja").textContent =
-			peserta.meja || "-";
+			user.meja && String(user.meja).trim() !== ""
+			? user.meja
+			: "-";
 
 		document.getElementById("kerusi").textContent =
-			peserta.kerusi || "-";
+			user.kerusi && String(user.kerusi).trim() !== ""
+			? user.kerusi
+			: "-";
 
-		updateButtonStatus(peserta);
+		updateButtonStatus(user);
+	}else{
+
+		document.querySelector(".card").innerHTML=`
+		<h2>❌ Data tidak dijumpai</h2>
+		<p>Kembali ke halaman utama...</p>
+		`;
+
+		setTimeout(function(){
+			window.location.replace("index.html");
+		},3000);
 	}
 
-</script>
+	// BUTTON
+		async function sahHadir(){
+			
+			const btn = document.getElementById("btnHadir");
 
-</body>
+			if(btn.disabled) return;
+			
+			let peserta;
+
+		try{
+			peserta = JSON.parse(localStorage.getItem("peserta"));
+			}catch(e){
+				localStorage.removeItem("peserta");
+				peserta = null;
+			}
+			if(!confirm("Adakah anda ingin mengesahkan kehadiran?")){
+				return;
+			}
+
+			if(!peserta){
+				alert("Maklumat peserta tidak dijumpai.");
+				window.location.replace("index.html");
+				return;
+			}
+
+			btn.disabled = true;
+			btn.innerHTML='<span class="spinner"></span> Sedang merekod kehadiran...';
+
+			let timeoutId;
+
+			try{
+
+				const controller = new AbortController();
+
+				timeoutId = setTimeout(() => {
+					controller.abort();
+				}, 15000);
+
+				const response = await fetch(
+					API_URL +
+					"?action=hadir&ic=" +
+					encodeURIComponent(peserta.ic),
+				{
+					method: "GET",
+					signal: controller.signal,
+					cache: "no-store"
+				});
+
+				clearTimeout(timeoutId);
+				
+				if(!response.ok){
+					throw new Error(
+						"Server Error " +
+						response.status +
+						" : " +
+						response.statusText
+					);
+				}
+				
+				const contentType = response.headers.get("content-type");
+
+				if(!contentType || !contentType.includes("application/json")){
+					throw new Error("Server tidak menghantar JSON.");
+				}
+				let result;
+
+				try{
+					result = await response.json();
+				}catch(e){
+					throw new Error("Server menghantar data yang tidak sah.");
+				}
+
+				if(result.status){
+					simpanPesertaHadir(peserta,result);
+					document.getElementById("meja").innerHTML = peserta.meja;
+					document.getElementById("kerusi").innerHTML = peserta.kerusi;
+				}
+				else if(
+					typeof result.message === "string" &&
+					result.message.includes("telah hadir")
+				){
+					simpanPesertaHadir(peserta,result);
+				}
+				else{
+
+					alert(result.message || "Ralat semasa merekod kehadiran.");
+
+					btn.disabled=false;
+					btn.innerHTML="✔ SILA SAHKAN KEHADIRAN";
+
+				}
+
+				}catch(err){
+
+				btn.disabled = false;
+				btn.innerHTML = "✔ SILA SAHKAN KEHADIRAN";
+
+				console.error(err);
+
+				if(err.name === "AbortError"){
+					alert("Sambungan mengambil masa terlalu lama.\nSila cuba semula.");
+				}
+				else if(err.message?.startsWith("Server Error")){
+					alert(
+						"Ralat Sistem\n\n" +
+						err.message
+					);
+				}
+				else if(err.message === "Server tidak menghantar JSON."){
+					alert(err.message);
+				}
+				else if(err.message === "Server menghantar data yang tidak sah."){
+					alert(err.message);
+				}
+				else{
+					alert("Tidak dapat berhubung dengan server.");
+				}
+
+			}finally{
+				clearTimeout(timeoutId);
+			}
+
+		}
+
+		function updateButtonStatus(user){
+
+			const btnHadir=document.getElementById("btnHadir");
+			const btnKembali=document.getElementById("btnKembali");
+			const box=document.getElementById("statusBox");
+
+			if(user && user.hadir==="TELAH HADIR"){
+
+				btnHadir.style.display="none";
+				btnKembali.style.display="block";
+
+				box.style.display="block";
+
+				box.innerHTML=`
+					<div style="font-size:15px;font-weight:bold">
+						✅ Kehadiran Berjaya Direkod
+					</div>
+
+					<div style="margin-top:8px;font-size:13px">
+						${user.tarikh || ""} ${user.masa || ""}
+					</div>
+				`;
+
+			}else{
+
+				btnHadir.style.display="block";
+				btnKembali.style.display="none";
+				box.style.display="none";
+
+			}
+		}
+
+		function kembali(){
+			localStorage.removeItem("peserta");
+			sessionStorage.clear();
+			window.location.replace("index.html");
+		}
+		
+		function simpanPesertaHadir(peserta, result){
+
+			peserta.hadir = "TELAH HADIR";
+
+			if(result.tarikh){
+				peserta.tarikh = result.tarikh;
+			}
+
+			if(result.masa){
+				peserta.masa = result.masa;
+			}
+
+			// Pastikan meja dan kerusi kekal
+			if(result.meja){
+				peserta.meja = result.meja;
+			}
+
+			if(result.kerusi){
+				peserta.kerusi = result.kerusi;
+			}
+
+			localStorage.setItem(
+				"peserta",
+				JSON.stringify(peserta)
+			);
+
+			// Paparkan meja dan kerusi
+			document.getElementById("meja").textContent =
+				peserta.meja || "-";
+
+			document.getElementById("kerusi").textContent =
+				peserta.kerusi || "-";
+
+			updateButtonStatus(peserta);
+		}
+
+	</script>
+
+	</body>
 </html>
