@@ -28,7 +28,7 @@
 			/* TITLE */
 			.welcome{
 				font-size:18px;
-				color:#facc15;
+				color:#ffffff;
 				font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 				margin-top:10px;
 			}
@@ -65,7 +65,8 @@
 				border:none;
 				border-radius:30px;
 				width:80%;
-				background:linear-gradient(90deg,#facc15,#eab308);
+				background:linear-gradient(90deg,#800020,#9f1239);
+				color:white;
 				font-weight:bold;
 				font-size:16px;
 				cursor:pointer;
@@ -94,8 +95,18 @@
 			</div>
 			<br><br>
 			<div style="margin-top:30px;">			
-				<input type="text" id="icInput" placeholder="Masukkan No IC"
-				style="width:80%; padding:12px; border-radius:10px; border:none; text-align:center; font-size:16px;">			
+				<input
+					type="text"
+					id="icInput"
+					placeholder="Masukkan No IC"
+					style="
+						width:80%;
+						padding:12px;
+						border-radius:10px;
+						border:2px solid #800020;
+						text-align:center;
+						font-size:16px;
+						box-sizing:border-box;">		
 				<br><br>
 
 				<button class="btn" onclick="semakIC()">
