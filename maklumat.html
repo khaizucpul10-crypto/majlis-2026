@@ -183,8 +183,8 @@
 			<!--div class="profile"></div-->
 
 		<div class="welcome" style="color:#1e3a8a;">
-			Majlis Anugerah Perkhidmatan Cemerlang Tahun 2025<br>
-			PPD TAWAU
+			Majlis Perkongsian Ilmu Tahun 2025<br>
+			PERKESO 
 		</div><br>
 
 		<div class="name" id="nama"></div>
@@ -199,17 +199,17 @@
 
 		<hr>
 		<div id="statusBox"></div>
+		<div id="infoTempatDuduk" style="display:none;">
+			<div class="row">
+				<div align="Left">No. Meja</div>
+				<div class="big" id="meja"></div>
+			</div>
 
-		<div class="row">
-			<div align="Left">No. Meja</div>
-			<div class="big" id="meja"></div>
+			<div class="row">
+				<div align="Left">No. Kerusi</div>
+				<div class="big" id="kerusi"></div>
+			</div>
 		</div>
-
-		<div class="row">
-			<div align="Left">No. Kerusi</div>
-			<div class="big" id="kerusi"></div>
-		</div>
-
 		<!--button class="btn green" onclick="sahHadir()">✔ SILA SAHKAN KEHADIRAN</button-->
 		<button id="btnHadir" class="btn green" onclick="sahHadir()">
 			✔ SILA SAHKAN KEHADIRAN
@@ -391,20 +391,33 @@
 
 		}
 
+		
 		function updateButtonStatus(user){
 
-			const btnHadir=document.getElementById("btnHadir");
-			const btnKembali=document.getElementById("btnKembali");
-			const box=document.getElementById("statusBox");
+			const btnHadir = document.getElementById("btnHadir");
+			const btnKembali = document.getElementById("btnKembali");
+			const box = document.getElementById("statusBox");
+			const infoTempatDuduk = document.getElementById("infoTempatDuduk");
 
-			if(user && user.hadir==="TELAH HADIR"){
+			if(user && user.hadir === "TELAH HADIR"){
 
-				btnHadir.style.display="none";
-				btnKembali.style.display="block";
+				// ==========================
+				// PESERTA SUDAH HADIR
+				// ==========================
 
-				box.style.display="block";
+				// Paparkan Meja & Kerusi
+				infoTempatDuduk.style.display = "block";
 
-				box.innerHTML=`
+				// Sembunyikan button sahkan
+				btnHadir.style.display = "none";
+
+				// Paparkan button kembali
+				btnKembali.style.display = "block";
+
+				// Paparkan status
+				box.style.display = "block";
+
+				box.innerHTML = `
 					<div style="font-size:15px;font-weight:bold">
 						✅ Kehadiran Berjaya Direkod
 					</div>
@@ -416,18 +429,34 @@
 
 			}else{
 
-				btnHadir.style.display="block";
-				btnKembali.style.display="none";
-				box.style.display="none";
+				// ==========================
+				// PESERTA BELUM HADIR
+				// ==========================
 
+				// Sembunyikan Meja & Kerusi
+				infoTempatDuduk.style.display = "none";
+
+				// Paparkan button sahkan
+				btnHadir.style.display = "block";
+				btnHadir.disabled = false;
+				btnHadir.innerHTML = "✔ SILA SAHKAN KEHADIRAN";
+
+				// Sembunyikan button kembali
+				btnKembali.style.display = "none";
+
+				// Sembunyikan status
+				box.style.display = "none";
 			}
 		}
+		
+
 
 		function kembali(){
 			localStorage.removeItem("peserta");
 			sessionStorage.clear();
 			window.location.replace("index.html");
 		}
+		
 		
 		function simpanPesertaHadir(peserta, result){
 
@@ -450,20 +479,28 @@
 				peserta.kerusi = result.kerusi;
 			}
 
+			// Simpan ke localStorage
 			localStorage.setItem(
 				"peserta",
 				JSON.stringify(peserta)
 			);
 
-			// Paparkan meja dan kerusi
+			// Paparkan nombor meja
 			document.getElementById("meja").textContent =
 				peserta.meja || "-";
 
+			// Paparkan nombor kerusi
 			document.getElementById("kerusi").textContent =
 				peserta.kerusi || "-";
 
+			// Paparkan blok tempat duduk
+			document.getElementById("infoTempatDuduk").style.display = "block";
+
+			// Kemaskini status/button
 			updateButtonStatus(peserta);
 		}
+		
+
 
 	</script>
 
