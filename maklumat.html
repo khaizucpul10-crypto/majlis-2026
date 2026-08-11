@@ -342,8 +342,8 @@
 
 				if(result.status){
 					simpanPesertaHadir(peserta,result);
-					document.getElementById("meja").innerHTML = peserta.meja;
-					document.getElementById("kerusi").innerHTML = peserta.kerusi;
+					//document.getElementById("meja").innerHTML = peserta.meja;
+					//document.getElementById("kerusi").innerHTML = peserta.kerusi;
 				}
 				else if(
 					typeof result.message === "string" &&
@@ -357,7 +357,6 @@
 
 					btn.disabled=false;
 					btn.innerHTML="✔ SILA SAHKAN KEHADIRAN";
-
 				}
 
 				}catch(err){
